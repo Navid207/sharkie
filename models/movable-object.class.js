@@ -8,6 +8,7 @@ class MovableObject {
     height = 150;
     width = 100;
     onCollisionCourse = true;
+    hurt = false;
 
     collOffset = {
         x: 0,

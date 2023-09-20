@@ -81,13 +81,6 @@ class Boss extends MovableObject {
                 this.attack();
             }
             this.checkState();
-            // if (this.showPos == this.view_x || this.actImage >= 1) {
-            //     if (this.actImage < 10) {
-            //         this.changeImg(this.IMAGES.COMMING)
-            //     } else {
-            //         this.changeImg(this.IMAGES.SWIM)
-            //     }
-            // }
 
             switch (this.activState) {
                 case 1:
@@ -102,8 +95,11 @@ class Boss extends MovableObject {
                 case 4:
                     this.changeImg(this.IMAGES.HURT)
                     break;
+
                 case 100:
-                    this.changeImg(this.IMAGES.DEAD)
+                    if (this.actImage <= 5) {
+                        this.changeImg(this.IMAGES.DEAD)
+                    }
                     break;
                 default:
                     break;
@@ -112,26 +108,41 @@ class Boss extends MovableObject {
     }
 
     checkState() {
-        if ((this.showPos == this.view_x &! this.activState) || this.activState == 1 && this.actImage < 10) {
+        if ((this.showPos >= this.view_x & !this.activState) || this.activState == 1 && this.actImage < 10) {
+            this.onCollisionCourse = true;
             return this.activState = 1
         }
-        if (this.onCollisionCourse){
+        if (this.isDead()) {
+            this.hurt = false;
+            return this.activState = 100
+        }
+        if (this.hurt) {
+            if (this.oldState == 4 && this.actImage >= 3) {
+                this.hurt = false;
+            }
+            return this.activState = 4
+        }
+        if (this.onCollisionCourse) {
             return this.activState = 3
-        } 
+        }
         if (this.activState > 0) {
             return this.activState = 2
         }
     }
     attack() {
-        setInterval(() => {
-            if (this.onCollisionCourse && (this.actImage >= 6)) {
-                this.onCollisionCourse = false;
-                this.attackTime = Math.random() * 5000 + 3000;
-            } else {
-                this.onCollisionCourse = true;
-                this.damageSatae = 0;
-            }
-        }, this.attackTime)
+        if (this.oldState == 3 && this.actImage == 5) {
+            this.onCollisionCourse = false;
+            this.setAttackDelay();
+        }
+
+    }
+
+    setAttackDelay() {
+        setTimeout(() => {
+            this.damageSatae = 0;
+            this.onCollisionCourse = true;
+            this.attackTime = Math.random() * 5000 + 3000;
+        }, this.attackTime);
     }
 
 

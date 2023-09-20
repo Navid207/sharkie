@@ -8,6 +8,7 @@ class Puffer extends MovableObject {
     damageSatae = 0;
     onCollisionCourse = false;
     attackTime = Math.random() * 10000;
+    HP = 20;
 
     IMAGES = {
         SWIM: [
@@ -57,7 +58,7 @@ class Puffer extends MovableObject {
                 this.actImage = 0;
             }
 
-
+            //Time to set onCollisionCourse to TRUE for the attack
             setTimeout(() => {
                 if (!this.onCollisionCourse && this.HP>0) {
                     this.onCollisionCourse = true;

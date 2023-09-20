@@ -2,6 +2,9 @@ class World {
     character = new Character;
     level = level1;
     damageTyp;
+    statusbar = [
+        new Life,]
+        ;
 
     canvas;
     ctx;
@@ -25,7 +28,7 @@ class World {
         this.character.keyboard = this.keyboard;
         this.character.xMax = this.level.endPos;
         this.level.enemys.forEach(e => {
-            if (e instanceof Boss){
+            if (e instanceof Boss) {
                 e.showPos = this.level.bossPos;
             }
         });
@@ -60,6 +63,7 @@ class World {
         this.ctx.translate(this.view_x, 0);
 
         this.addObjectsToMap(this.level.backgrounds);
+        this.addObjectsToMap(this.statusbar);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemys);
 
@@ -94,6 +98,8 @@ class World {
         this.moveView();
         this.checkCollisions();
         this.characterState();
+        this.upadteStatusbar();
+
 
     }
 
@@ -109,7 +115,7 @@ class World {
             }
         }
         this.level.enemys.forEach(e => {
-            if (e instanceof Boss){
+            if (e instanceof Boss) {
                 e.view_x = this.view_x;
             }
         });
@@ -132,9 +138,10 @@ class World {
         this.damageTyp = 0;
 
         for (let i = 0; i < this.level.enemys.length; i++) {
-            
-            if (this.level.enemys[i].isColliding(this.character)) {
-                this.level.enemys[i].HP = 0;
+
+            if (this.level.enemys[i].isColliding(this.character) &! this.level.enemys[i].hurt) {
+                this.level.enemys[i].HP = this.level.enemys[i].HP - 20;
+                this.level.enemys[i].hurt = true;
             }
         }
     }
@@ -157,9 +164,9 @@ class World {
             this.character.activState = 6;
             return;
         }
-        if (this.keyboard.SPACE || (this.character.activState == 5 && this.character.actImage <= 8)) {
+        if ((this.keyboard.SPACE && (this.character.oldState != 5)) || (this.character.activState == 5 && this.character.actImage <= 8)) {
             this.character.activState = 5;
-            return;
+            return;   
         }
         if ((this.keyboard.DOWN || this.keyboard.UP || this.keyboard.LEFT || this.keyboard.RIGHT)) {
             this.character.activState = 4;
@@ -181,7 +188,12 @@ class World {
 
     }
 
-
+    upadteStatusbar() {
+        this.statusbar.forEach(e => {
+            e.x = (-1 * this.view_x);
+        });
+        this.statusbar[0].setLife(this.character.HP);
+    }
 
 
 

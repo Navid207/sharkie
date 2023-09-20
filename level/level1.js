@@ -16,4 +16,4 @@ level1.backgrounds = [
     new Background('img/3_Background/Layers/2. Floor/D.png', 0)
 ];
 level1.endPos = 1430;
-level1.bossPos = -880;
+level1.bossPos = -760;

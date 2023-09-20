@@ -2,6 +2,7 @@ class Character extends MovableObject {
     height = 245;
     width = 200;
     speed = 2;
+    damageSatae = 0;
 
     collOffset = {
         x: 40,
@@ -169,13 +170,13 @@ class Character extends MovableObject {
                 this.oldState = this.activState;
                 this.actImage = 0;
                 if (this.activState == 7) {
-                    this.HP -= 25;
+                    this.HP -= 20;
                     if (this.isDead()) {
                         this.activState = 100;
                     }
                 }
                 if (this.activState == 8) {
-                    this.HP -= 50;
+                    this.HP -= 40;
                     if (this.isDead()) {
                         this.activState = 101;
                     }
