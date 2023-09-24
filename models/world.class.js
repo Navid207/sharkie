@@ -3,13 +3,16 @@ class World {
     level = level1;
     damageTyp;
     statusbar = [
-        new Life,]
-        ;
+        new LifeStatusbar,
+        new CoinStatusbar,];
+    gameStatus = new GameStatus;
 
     canvas;
     ctx;
     keyboard;
     view_x = 0;
+
+    gameIsOver = false;
 
 
 
@@ -61,12 +64,7 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.update();
         this.ctx.translate(this.view_x, 0);
-
-        this.addObjectsToMap(this.level.backgrounds);
-        this.addObjectsToMap(this.statusbar);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemys);
-
+        this.drawObjects();
         this.ctx.translate(-this.view_x, 0);
 
 
@@ -77,6 +75,15 @@ class World {
             self.draw();
         })
     }
+
+    drawObjects() {
+        this.addObjectsToMap(this.level.backgrounds);
+        this.addObjectsToMap(this.statusbar);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.enemys);
+        this.setGameStatus();
+    }
+
 
     flipImg(object) {
         this.ctx.save();
@@ -139,13 +146,12 @@ class World {
 
         for (let i = 0; i < this.level.enemys.length; i++) {
 
-            if (this.level.enemys[i].isColliding(this.character) &! this.level.enemys[i].hurt) {
+            if (this.level.enemys[i].isColliding(this.character) & !this.level.enemys[i].hurt) {
                 this.level.enemys[i].HP = this.level.enemys[i].HP - 20;
                 this.level.enemys[i].hurt = true;
             }
         }
     }
-
 
     characterState() {
         if (this.character.activState >= 100) {
@@ -166,7 +172,7 @@ class World {
         }
         if ((this.keyboard.SPACE && (this.character.oldState != 5)) || (this.character.activState == 5 && this.character.actImage <= 8)) {
             this.character.activState = 5;
-            return;   
+            return;
         }
         if ((this.keyboard.DOWN || this.keyboard.UP || this.keyboard.LEFT || this.keyboard.RIGHT)) {
             this.character.activState = 4;
@@ -195,7 +201,47 @@ class World {
         this.statusbar[0].setLife(this.character.HP);
     }
 
+    setGameStatus() {
+        if (this.character.isDead()) {
+            this.gameOver();
+            return
+        }
+        this.level.enemys.forEach(e => {
+            if (e instanceof Boss) {
+                if (e.isDead()) {
+                    this.youWin();
+                    return
+                }
+            }
+        });
 
+    }
+
+    gameOver() {
+        if (this.gameIsOver) {
+            this.gameStatus.setGameState(1);
+            this.gameStatus.x = -1 * this.view_x + 115;
+            this.addToMap(this.gameStatus);
+            return
+        } else {
+            setTimeout(() => {
+                this.gameIsOver = true;
+            }, 1500)
+        }
+    }
+
+    youWin(){
+        if (this.gameIsOver) {
+            this.gameStatus.setGameState(2);
+            this.gameStatus.x = -1 * this.view_x;
+            this.addToMap(this.gameStatus);;
+            return
+        } else {
+            setTimeout(() => {
+                this.gameIsOver = true;
+            }, 1500)
+        }
+    }
 
 
 

@@ -8,6 +8,7 @@ level1.enemys = [
     new Jally,
     new Boss,
 ];
+//level1.coins = 
 level1.backgrounds = [
     new Background('img/3_Background/Layers/5. Water/D.png', 0),
     new Background('img/3_Background/Layers/4.Fondo 2/D.png', 0),
