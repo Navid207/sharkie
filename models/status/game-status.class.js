@@ -1,4 +1,5 @@
 class GameStatus extends DrawableObject {
+    collectedCoins=0;
 
     IMAGES = {
         STATE: [

@@ -53,3 +53,7 @@ window.addEventListener("keyup", (e) => {
             break;
     };
 });
+
+function fullscreen(){
+    canvas.requestFullscreen();
+}

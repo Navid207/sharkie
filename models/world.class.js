@@ -48,7 +48,7 @@ class World {
             this.flipImgBack(object);
         }
 
-        object.drawCollisionArea(this.ctx)
+        //object.drawCollisionArea(this.ctx)
 
 
 
@@ -80,6 +80,7 @@ class World {
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.statusbar);
         this.addToMap(this.character);
+        this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemys);
         this.setGameStatus();
     }
@@ -151,6 +152,14 @@ class World {
                 this.level.enemys[i].hurt = true;
             }
         }
+
+        for (let i = 0; i < this.level.coins.length; i++) {
+            if (this.character.isColliding(this.level.coins[i])){
+                this.gameStatus.collectedCoins +=1;
+                this.level.coins.splice(i,1);
+                
+            }
+        }
     }
 
     characterState() {
@@ -199,6 +208,7 @@ class World {
             e.x = (-1 * this.view_x);
         });
         this.statusbar[0].setLife(this.character.HP);
+        this.statusbar[1].setCoin(this.gameStatus.collectedCoins);
     }
 
     setGameStatus() {
@@ -230,7 +240,7 @@ class World {
         }
     }
 
-    youWin(){
+    youWin() {
         if (this.gameIsOver) {
             this.gameStatus.setGameState(2);
             this.gameStatus.x = -1 * this.view_x;

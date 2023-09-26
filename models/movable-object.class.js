@@ -15,12 +15,7 @@ class MovableObject extends DrawableObject {
 
     keyboard = new Keyboard;
 
-    collOffset = {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    }
+
 
 
     moveRight() {

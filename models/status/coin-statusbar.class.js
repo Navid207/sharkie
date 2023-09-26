@@ -1,4 +1,4 @@
-class CoinStatusbar extends DrawableObject{
+class CoinStatusbar extends MovableObject{
     x = 60;
     y = 30;
     height = 50;
@@ -21,20 +21,23 @@ class CoinStatusbar extends DrawableObject{
 
     setCoin(COIN) {
 
-        switch (true) {
-            case (COIN>=100):
+        switch (COIN) {
+            case (5):
                 this.loadImage(this.IMAGES.COIN[5]);
                 break;
-            case (COIN>=80):
+            case (4):
                 this.loadImage(this.IMAGES.COIN[4]);
                 break;
-            case (COIN>=60):
+            case (3):
                 this.loadImage(this.IMAGES.COIN[3]);
                 break;
-            case (COIN>=40):
+            case (2):
+                this.loadImage(this.IMAGES.COIN[2]);
+                break;
+            case (1):
                 this.loadImage(this.IMAGES.COIN[1]);
                 break;
-            case (COIN<20):
+            case (0):
                 this.loadImage(this.IMAGES.COIN[0]);
                 break;
         }

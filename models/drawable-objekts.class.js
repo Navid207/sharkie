@@ -10,7 +10,13 @@ class DrawableObject {
     actImage = 0;
     imageCache = {};
     imgCahangeDirection = false;
-   
+
+    collOffset = {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    }  
 
 
     loadImage(path) {
@@ -44,7 +50,7 @@ class DrawableObject {
 
     drawCollisionArea(ctx) {
         // rectangel for collisions detection
-        if (this instanceof Character || this instanceof Jally || this instanceof Puffer || this instanceof Boss) {
+        if (this instanceof Character || this instanceof Coin || this instanceof Jally || this instanceof Puffer || this instanceof Boss) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "red";

@@ -1,0 +1,3 @@
+class Bubble extends DrawableObject{
+    
+}
