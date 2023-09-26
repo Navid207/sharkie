@@ -50,7 +50,7 @@ class DrawableObject {
 
     drawCollisionArea(ctx) {
         // rectangel for collisions detection
-        if (this instanceof Character || this instanceof Coin || this instanceof Jally || this instanceof Puffer || this instanceof Boss) {
+        if (this instanceof Character || this instanceof Coin || this instanceof Poison || this instanceof Jally || this instanceof Puffer || this instanceof Boss) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "red";

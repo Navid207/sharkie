@@ -1,5 +1,6 @@
 class GameStatus extends DrawableObject {
     collectedCoins=0;
+    collectedPoison=0;
 
     IMAGES = {
         STATE: [

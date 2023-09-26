@@ -15,6 +15,13 @@ level1.coins = [
     new Coin((1200*Math.random()),level1.enemys[3].y),
     new Coin((1200*Math.random()),level1.enemys[4].y),
 ];
+level1.poison = [
+    new Poison((1200*Math.random()),420),
+    new Poison((1200*Math.random()),420),
+    new Poison((1200*Math.random()),420),
+    new Poison((1200*Math.random()),420),
+    new Poison((1200*Math.random()),420),
+];
 
 level1.backgrounds = [
     new Background('img/3_Background/Layers/5. Water/D.png', 0),

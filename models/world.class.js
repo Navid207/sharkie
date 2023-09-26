@@ -4,7 +4,8 @@ class World {
     damageTyp;
     statusbar = [
         new LifeStatusbar,
-        new CoinStatusbar,];
+        new CoinStatusbar,
+    new PoisonStatusbar];
     gameStatus = new GameStatus;
 
     canvas;
@@ -16,6 +17,9 @@ class World {
 
 
 
+
+
+    
 
 
 
@@ -48,7 +52,7 @@ class World {
             this.flipImgBack(object);
         }
 
-        //object.drawCollisionArea(this.ctx)
+        object.drawCollisionArea(this.ctx)
 
 
 
@@ -81,6 +85,7 @@ class World {
         this.addObjectsToMap(this.statusbar);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.poison);
         this.addObjectsToMap(this.level.enemys);
         this.setGameStatus();
     }
@@ -127,7 +132,6 @@ class World {
                 e.view_x = this.view_x;
             }
         });
-        // this.level.enemys[4].view_x = this.view_x;
     }
 
     checkCollisions() {
@@ -157,6 +161,13 @@ class World {
             if (this.character.isColliding(this.level.coins[i])){
                 this.gameStatus.collectedCoins +=1;
                 this.level.coins.splice(i,1);
+                
+            }
+        }
+        for (let i = 0; i < this.level.poison.length; i++) {
+            if (this.character.isColliding(this.level.poison[i])){
+                this.gameStatus.collectedPoison +=1;
+                this.level.poison.splice(i,1);
                 
             }
         }
@@ -209,6 +220,7 @@ class World {
         });
         this.statusbar[0].setLife(this.character.HP);
         this.statusbar[1].setCoin(this.gameStatus.collectedCoins);
+        this.statusbar[2].setPoisonBubbl(this.gameStatus.collectedPoison);
     }
 
     setGameStatus() {

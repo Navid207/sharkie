@@ -5,10 +5,10 @@ class Character extends MovableObject {
     damageSatae = 0;
 
     collOffset = {
-        x: 40,
-        y: 115,
-        width: -75,
-        height: -165
+        x: 45,
+        y: 120,
+        width: -90,
+        height: -175
     }
 
 
