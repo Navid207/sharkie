@@ -5,21 +5,14 @@ class World {
     statusbar = [
         new LifeStatusbar,
         new CoinStatusbar,
-    new PoisonStatusbar];
+        new PoisonStatusbar];
     gameStatus = new GameStatus;
-
+    bubbles = [];
     canvas;
     ctx;
     keyboard;
     view_x = 0;
-
     gameIsOver = false;
-
-
-
-
-
-    
 
 
 
@@ -87,6 +80,7 @@ class World {
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.poison);
         this.addObjectsToMap(this.level.enemys);
+        this.addObjectsToMap(this.bubbles);
         this.setGameStatus();
     }
 
@@ -135,6 +129,13 @@ class World {
     }
 
     checkCollisions() {
+        this.attackToCharacter();
+        this.attackToEnemy();
+        this.collecting();
+        this.bubbleState();
+    }
+
+    attackToCharacter() {
         for (const e of this.level.enemys) {
             if (this.character.isColliding(e) && e.damageSatae == 0 && !(this.character.activState == 5)) {
                 this.damageTyp = e.damageTyp;
@@ -148,27 +149,39 @@ class World {
             }
         }
         this.damageTyp = 0;
-
+    }
+    attackToEnemy() {
         for (let i = 0; i < this.level.enemys.length; i++) {
-
             if (this.level.enemys[i].isColliding(this.character) & !this.level.enemys[i].hurt) {
                 this.level.enemys[i].HP = this.level.enemys[i].HP - 20;
                 this.level.enemys[i].hurt = true;
             }
         }
-
+    }
+    collecting() {
         for (let i = 0; i < this.level.coins.length; i++) {
-            if (this.character.isColliding(this.level.coins[i])){
-                this.gameStatus.collectedCoins +=1;
-                this.level.coins.splice(i,1);
-                
+            if (this.character.isColliding(this.level.coins[i])) {
+                this.gameStatus.collectedCoins += 1;
+                this.level.coins.splice(i, 1);
             }
         }
         for (let i = 0; i < this.level.poison.length; i++) {
-            if (this.character.isColliding(this.level.poison[i])){
-                this.gameStatus.collectedPoison +=1;
-                this.level.poison.splice(i,1);
-                
+            if (this.character.isColliding(this.level.poison[i])) {
+                this.gameStatus.collectedPoison += 1;
+                this.level.poison.splice(i, 1);
+            }
+        }
+    }
+    bubbleState() {
+        if (this.bubbles.length > 0) {
+            if (this.bubbles[0].atEndPos) {
+                this.bubbles.splice(0, 1);
+                return
+            }
+            if (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0])) {
+                this.level.enemys[(this.level.enemys.length - 1)].HP = this.level.enemys[(this.level.enemys.length - 1)].HP - 20;
+                this.level.enemys[(this.level.enemys.length - 1)].hurt = true;
+                this.bubbles.splice(0, 1);
             }
         }
     }
@@ -186,7 +199,8 @@ class World {
             this.character.activState = 7;
             return;
         }
-        if (this.keyboard.B || (this.character.activState == 6 && this.character.actImage <= 8)) {
+        if ((this.keyboard.B && this.gameStatus.collectedPoison > 0) || (this.character.activState == 6 && this.character.actImage <= 8)) {
+            this.addBubble();
             this.character.activState = 6;
             return;
         }
@@ -211,7 +225,13 @@ class World {
             return;
         }
         this.character.activState = 0;
+    }
 
+    addBubble() {
+        if (this.character.actImage == 8 && this.character.oldState == 6 && this.bubbles.length < 1) {
+            this.bubbles.push(new Bubble(this.character.x, this.character.y, this.character.imgCahangeDirection));
+            this.gameStatus.collectedPoison -= 1;
+        }
     }
 
     upadteStatusbar() {

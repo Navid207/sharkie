@@ -104,6 +104,7 @@ class Boss extends MovableObject {
                 default:
                     break;
             }
+            console.log('is hurt ' + this.hurt)
         }, 200);
     }
 
