@@ -7,6 +7,47 @@ let keyboard = new Keyboard;
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    buttonEwentListner();
+}
+
+function buttonEwentListner(){
+    document.getElementById('move-left').addEventListener('touchstart',e=>{
+        keyboard.LEFT = true;
+    });
+    document.getElementById('move-left').addEventListener('touchend',e=>{
+        keyboard.LEFT = false;
+    });
+    document.getElementById('move-up').addEventListener('touchstart',e=>{
+        keyboard.UP = true;
+    });
+    document.getElementById('move-up').addEventListener('touchend',e=>{
+        keyboard.UP = false;
+    });
+    document.getElementById('move-right').addEventListener('touchstart',e=>{
+        keyboard.RIGHT = true;
+    });
+    document.getElementById('move-right').addEventListener('touchend',e=>{
+        keyboard.RIGHT = false;
+    });
+    document.getElementById('move-down').addEventListener('touchstart',e=>{
+        keyboard.DOWN = true;
+    });
+    document.getElementById('move-down').addEventListener('touchend',e=>{
+        keyboard.DOWN = false;
+    });
+
+    document.getElementById('attack-fin').addEventListener('touchstart',e=>{
+        keyboard.SPACE = true;
+    });
+    document.getElementById('attack-fin').addEventListener('touchend',e=>{
+        keyboard.SPACE = false;
+    });
+    document.getElementById('attack-bubble').addEventListener('touchstart',e=>{
+        keyboard.B = true;
+    });
+    document.getElementById('attack-bubble').addEventListener('touchend',e=>{
+        keyboard.B = false;
+    });
 }
 
 window.addEventListener("keydown", (e) => {
@@ -54,6 +95,28 @@ window.addEventListener("keyup", (e) => {
     };
 });
 
-function fullscreen(){
-    canvas.requestFullscreen();
+function openFullscreen() {
+    if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) { /* Safari */
+        canvas.webkitRequestFullscreen();
+    } else if (canvas.msRequestFullscreen) { /* IE11 */
+        canvas.msRequestFullscreen();
+    }
+}
+
+function clearAllIntervals() {
+    for (let i = 1; i < 99999; i++){ 
+        window.clearInterval(i);
+        clearTimeout(i);
+    }
+  }
+
+function startGame() {
+    clearAllIntervals();
+    world = new World(canvas, keyboard);
+    world.level=initLevel();
+    world.stopGame = false;
+    world.gameStatus.setGameState(0);
+    document.getElementById('butTryAgain').classList.add('d-none');
 }

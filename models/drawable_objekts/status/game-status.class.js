@@ -13,8 +13,7 @@ class GameStatus extends DrawableObject {
         super().loadImages(this.IMAGES);
     }
 
-    setGameState(State) {
-
+    setGameState(State) { 
         switch (State) {
             case (1):
                 this.y = 200;

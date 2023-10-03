@@ -13,18 +13,18 @@ class World {
     keyboard;
     view_x = 0;
     gameIsOver = false;
-
+    stopGame = true;
 
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.ctx = canvas.getContext('2d');
-        this.setUsedVar();
         this.draw();
     }
 
     setUsedVar() {
+        this.moveView();
         this.character.keyboard = this.keyboard;
         this.character.xMax = this.level.endPos;
         this.level.enemys.forEach(e => {
@@ -32,6 +32,7 @@ class World {
                 e.showPos = this.level.bossPos;
             }
         });
+
     }
 
     addToMap(object) {
@@ -52,19 +53,20 @@ class World {
     }
 
     addObjectsToMap(objects) {
-        objects.forEach(o => {
-            this.addToMap(o);
-        })
+        if (objects) {
+            objects.forEach(o => {
+                this.addToMap(o);
+            })
+        }
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.update();
-        this.ctx.translate(this.view_x, 0);
-        this.drawObjects();
-        this.ctx.translate(-this.view_x, 0);
-
-
+        if (!this.stopGame && this.level.enemys) {
+            this.update();
+            this.ctx.translate(this.view_x, 0);
+            this.drawObjects();
+            this.ctx.translate(-this.view_x, 0);
+        }
 
         // Um immer sich selbs zu starten so offt wie die Grafikkarte es hergibt
         let self = this;
@@ -102,11 +104,11 @@ class World {
     //////////// Update Logic
 
     update() {
-        this.moveView();
+        this.setUsedVar();
+
         this.checkCollisions();
         this.characterState();
         this.upadteStatusbar();
-
 
     }
 
@@ -121,11 +123,13 @@ class World {
                 this.view_x = -880;
             }
         }
-        this.level.enemys.forEach(e => {
-            if (e instanceof Boss) {
-                e.view_x = this.view_x;
-            }
-        });
+        if (this.level.enemys.length > 0) {
+            this.level.enemys.forEach(e => {
+                if (e instanceof Boss) {
+                    e.view_x = this.view_x;
+                }
+            });
+        }
     }
 
     checkCollisions() {
@@ -268,6 +272,8 @@ class World {
         } else {
             setTimeout(() => {
                 this.gameIsOver = true;
+                this.TryAgain();
+                
             }, 1500)
         }
     }
@@ -281,8 +287,14 @@ class World {
         } else {
             setTimeout(() => {
                 this.gameIsOver = true;
+                this.TryAgain();
             }, 1500)
         }
+    }
+
+    TryAgain(){
+        document.getElementById('butTryAgain').classList.remove('d-none');
+        document.getElementById('')
     }
 
 

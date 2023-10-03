@@ -8,6 +8,7 @@ class Boss extends MovableObject {
     damageSatae = 0;
     attackTime = Math.random() * 5000 + 3000;
     onCollisionCourse = false;
+    activState;
 
     collOffset = {
         x: 20,
@@ -104,7 +105,6 @@ class Boss extends MovableObject {
                 default:
                     break;
             }
-            console.log('is hurt ' + this.hurt)
         }, 200);
     }
 

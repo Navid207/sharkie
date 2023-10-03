@@ -3,6 +3,13 @@ class Character extends MovableObject {
     width = 200;
     speed = 2;
     damageSatae = 0;
+    sounds = {
+        bubble: new Audio('audio/Bubble.wav'),
+        slap: new Audio('audio/FinSlap.wav'),
+        hurt: new Audio('audio/Hurt_Sharki.wav'),
+    }
+
+
 
     collOffset = {
         x: 45,
@@ -182,18 +189,9 @@ class Character extends MovableObject {
                     }
                 }
             }
-            if (this.activState == 5) {
-                this.onCollisionCourse = true;
-            }
-            else {
-                this.onCollisionCourse = false;
-            }
-
             //console.log('aktiv state is ' + this.activState + ' old state is ' + this.oldState + ' HP=' + this.HP);
 
             switch (this.activState) {
-
-
                 case 4:
                     this.changeImg(this.IMAGES.SWIM);
                     this.speed = 2;
@@ -235,7 +233,21 @@ class Character extends MovableObject {
                     this.changeImg(this.IMAGES.IDLE);
             }
 
+            this.playAudio();
+
         }, 100);
+    }
+
+    playAudio() {
+        if (this.activState == 5 && this.oldState == 5 && this.actImage >= 5 && this.actImage <= 7) {
+            this.sounds.slap.play();
+            this.onCollisionCourse = true;
+            return
+        }
+        else {
+            this.onCollisionCourse = false;
+        }
+
     }
 
 

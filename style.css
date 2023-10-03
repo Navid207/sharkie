@@ -1,31 +1,170 @@
-body{
+body {
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('img/3_Background/Legacy/Layers/5. Water/L1.png') ;
-    font-family:'luckiestGuy';
+    background-image: url('img/3_Background/Legacy/Layers/5. Water/L1.png');
+    font-family: 'luckiestGuy', Arial, Helvetica, sans-serif;
     font-size: larger;
+    text-shadow: -1px 8px 2px rgba(0, 0, 0, 0.5);
     color: rgb(255, 255, 255);
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
-canvas{
+svg {
+    border: 2px solid;
+    border-color: #ffffff;
+    border-radius: 100%;
+    height: 24px;
+    width: 24px;
+    fill: #ffffff;
+}
+
+svg:hover {
+    fill: #2e2e2e;
+    cursor: pointer;
+    border-color: #2e2e2e;
+}
+
+.settings {
+    display: flex;
+    width: 720px;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+canvas {
     background-color: black;
+    display: block;
     overflow: auto;
     border: 3px solid white;
     border-radius: 2%;
 }
 
-img{
-    height: 40px;
+.control {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    top: -130px;
+    padding-inline: 12px;
 }
 
-img:hover {
+.control svg {
+    height: 48px;
+    width: 48px;
+}
+
+.move {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.up-down {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.attack {
+    display: flex;
+    gap: 24px;
+}
+
+.hiddenElement {
+    position: absolute;
+    top: 55vh;
+}
+
+.hiddenElement img {
+    height: 50px;
+}
+
+.hiddenElement img:hover{
     cursor: pointer;
-}
+}  
 
+.d-none{
+    display: none;
+}
 
 @font-face {
-    font-family:'luckiestGuy';
+    font-family: 'luckiestGuy';
     src: url('fonts/luckiestGuy-Regular.ttf') format('truetype');
+}
+
+@media only screen and (max-height: 600px) {
+    h1 {
+        display: none;
+    }
+
+    .settings {
+        position: absolute;
+        top: 0;
+    }
+
+    .control {
+        display: flex;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .settings {
+        width: unset;
+    }
+
+    canvas {
+        width: 100%;
+        border: none;
+        border-radius: 0;
+    }
+
+    .control {
+        display: flex;
+    }
+}
+
+@media only screen and ((max-width: 480px) or (max-height: 480px)) {
+    canvas {
+        height: 100vh;
+        width: 100vw;
+        border: none;
+        border-radius: 0;
+    }
+
+    .control {
+        display: flex;
+    }
+}
+
+/* @media only screen and (max-width: 480px) {
+    canvas {
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+    }
+    .control {
+        display: flex;
+    }
+} */
+
+/* Safari */
+:-webkit-full-screen {
+    border: none;
+    border-radius: 0;
+}
+
+/* IE11 syntax */
+:-ms-fullscreen {
+    border: none;
+    border-radius: 0;
+}
+
+/* Standard syntax */
+:fullscreen {
+    border: none;
+    border-radius: 0;
 }
