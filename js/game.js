@@ -151,3 +151,19 @@ function soundOn() {
     mute = false;
 }
 
+function openInfo() {
+    let info = document.getElementById('introduction');
+    info.classList.remove('d-none');
+    info.classList.add('slide-in');
+}
+
+function closeInfo() {
+    let info = document.getElementById('introduction');
+    info.classList.remove('slide-in');
+    info.classList.add('slide-out');
+    setTimeout(() => {
+        info.classList.remove('slide-out');
+        info.classList.add('d-none');
+    }
+        , 500)
+}
