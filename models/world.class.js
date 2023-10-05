@@ -15,6 +15,13 @@ class World {
     mute;
     gameIsOver = false;
     stopGame = true;
+    backgrounds = [
+        new Background('img/3_Background/Layers/5. Water/D.png', 0),
+        new Background('img/3_Background/Layers/4.Fondo 2/D.png', 300),
+        new Background('img/3_Background/Layers/3.Fondo 1/D.png', -200),
+        new Background('img/3_Background/Layers/1. Light/COMPLETO.png', 200),
+        new Background('img/3_Background/Layers/2. Floor/D.png', -300)
+    ];
 
 
     constructor(canvas, keyboard, mute) {
@@ -23,7 +30,6 @@ class World {
         this.mute = mute;
         this.ctx = canvas.getContext('2d');
         this.draw();
-        debugger
         this.checkSound(mute);
     }
 
@@ -63,17 +69,25 @@ class World {
 
     draw() {
         if (!this.stopGame && this.level.enemys) {
-            this.update();
-            this.ctx.translate(this.view_x, 0);
-            this.drawObjects();
-            this.ctx.translate(-this.view_x, 0);
+            this.DrawGameLoop();
+        } else {
+            this.DrawHomeScreen();
         }
 
         // Um immer sich selbs zu starten so offt wie die Grafikkarte es hergibt
         let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        })
+        requestAnimationFrame( ()=> self.draw())
+    }
+
+    DrawGameLoop(){
+        this.update();
+        this.ctx.translate(this.view_x, 0);
+        this.drawObjects();
+        this.ctx.translate(-this.view_x, 0);
+    }
+
+    DrawHomeScreen(){
+        this.addObjectsToMap(this.backgrounds);
     }
 
     drawObjects() {
@@ -86,7 +100,6 @@ class World {
         this.addObjectsToMap(this.bubbles);
         this.setGameStatus();
     }
-
 
     flipImg(object) {
         this.ctx.save();
@@ -108,7 +121,7 @@ class World {
             this.unMuteAllObjects();
         }
     }
-    
+
     muteAllObjects(){
         this.muteObjects(this.character.sounds);
         if (this.level.enemys) {

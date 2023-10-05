@@ -6,12 +6,18 @@ body {
     background-image: url('img/3_Background/Legacy/Layers/5. Water/L1.png');
     font-family: 'luckiestGuy', Arial, Helvetica, sans-serif;
     font-size: larger;
-    text-shadow: -1px 8px 2px rgba(0, 0, 0, 0.5);
-    color: rgb(255, 255, 255);
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     overflow-x: hidden;
 }
 
+h1{
+    text-shadow: -1px 8px 2px rgba(0, 0, 0, 0.5);
+    color: rgb(255, 255, 255);
+}
+
+p{
+    color: rgb(71, 71, 71);
+}
 svg {
     border: 2px solid;
     border-color: #ffffff;
@@ -85,9 +91,23 @@ canvas {
     height: 50px;
 }
 
-.hiddenElement img:hover{
+.hiddenElement:hover {
     cursor: pointer;
+}
+
+#butStartGame:hover{
+    content: url('img/6_Botones/Start/2.png');
 }  
+
+#introduction{
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 100vh;
+    width: 100vw;
+    display: block;
+    overflow: auto;
+    border: 3px solid white;
+    border-radius: 2%;
+}
 
 .d-none{
     display: none;
