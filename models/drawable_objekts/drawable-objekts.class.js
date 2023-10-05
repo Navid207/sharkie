@@ -18,6 +18,8 @@ class DrawableObject {
         height: 0
     }  
 
+    sounds={};
+
 
     loadImage(path) {
         this.img = new Image(); // => this.img = document.getElementById('image')  nur das es die Img noch nicht esestiet in HTML

@@ -3,13 +3,14 @@ class Character extends MovableObject {
     width = 200;
     speed = 2;
     damageSatae = 0;
+
     sounds = {
         bubble: new Audio('audio/Bubble.wav'),
         slap: new Audio('audio/FinSlap.wav'),
         hurt: new Audio('audio/Hurt_Sharki.wav'),
+        electric: new Audio('audio/electric.wav'),
+        gameOver: new Audio('audio/GameOver.wav')
     }
-
-
 
     collOffset = {
         x: 45,
@@ -246,6 +247,30 @@ class Character extends MovableObject {
         }
         else {
             this.onCollisionCourse = false;
+        }
+        if (this.activState == 6 && this.oldState == 6 && this.actImage >= 5 && this.actImage <= 7){
+            this.sounds.bubble.play();
+            return
+        }
+        if (this.activState == 7 && this.oldState == 7 && this.actImage >= 0 && this.actImage <=4){
+            this.sounds.hurt.play();
+            return
+        }
+        if (this.activState == 100 && this.oldState == 100 && this.actImage >= 0 && this.actImage <=4){
+            this.sounds.hurt.play();
+            return
+        }
+        if (this.activState == 8 && this.oldState == 8 && this.actImage >= 0 && this.actImage <=3){
+            this.sounds.electric.play();
+            return
+        }
+        if (this.activState == 101 && this.oldState == 101 && this.actImage >= 0 && this.actImage <=5
+            ){
+            this.sounds.electric.play();
+            return
+        }
+        else {
+            this.sounds.electric.pause();
         }
 
     }

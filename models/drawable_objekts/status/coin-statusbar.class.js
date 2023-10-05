@@ -1,8 +1,13 @@
-class CoinStatusbar extends MovableObject{
+class CoinStatusbar extends MovableObject {
     x = 60;
     y = 30;
     height = 50;
     width = 200;
+    oldState =0;
+
+    sounds = {
+        coin: new Audio('audio/coins.wav'),
+    }
 
     IMAGES = {
         COIN: [
@@ -24,23 +29,36 @@ class CoinStatusbar extends MovableObject{
         switch (COIN) {
             case (5):
                 this.loadImage(this.IMAGES.COIN[5]);
+                this.playAudio(5);
                 break;
             case (4):
                 this.loadImage(this.IMAGES.COIN[4]);
+                this.playAudio(4);
                 break;
             case (3):
                 this.loadImage(this.IMAGES.COIN[3]);
+                this.playAudio(3);
                 break;
             case (2):
                 this.loadImage(this.IMAGES.COIN[2]);
+                this.playAudio(2);
                 break;
             case (1):
                 this.loadImage(this.IMAGES.COIN[1]);
+                this.playAudio(1);
                 break;
             case (0):
                 this.loadImage(this.IMAGES.COIN[0]);
                 break;
         }
+    }
+
+    playAudio(state) {
+        if (state > this.oldState){
+            this.sounds.coin.currentTime = 0;
+            this.sounds.coin.play();
+            this.oldState = state;
+        }         
     }
 
 }

@@ -2,50 +2,51 @@
 let canvas;
 let world;
 let keyboard = new Keyboard;
+let mute = false;
 
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, mute);
     buttonEwentListner();
 }
 
-function buttonEwentListner(){
-    document.getElementById('move-left').addEventListener('touchstart',e=>{
+function buttonEwentListner() {
+    document.getElementById('move-left').addEventListener('touchstart', e => {
         keyboard.LEFT = true;
     });
-    document.getElementById('move-left').addEventListener('touchend',e=>{
+    document.getElementById('move-left').addEventListener('touchend', e => {
         keyboard.LEFT = false;
     });
-    document.getElementById('move-up').addEventListener('touchstart',e=>{
+    document.getElementById('move-up').addEventListener('touchstart', e => {
         keyboard.UP = true;
     });
-    document.getElementById('move-up').addEventListener('touchend',e=>{
+    document.getElementById('move-up').addEventListener('touchend', e => {
         keyboard.UP = false;
     });
-    document.getElementById('move-right').addEventListener('touchstart',e=>{
+    document.getElementById('move-right').addEventListener('touchstart', e => {
         keyboard.RIGHT = true;
     });
-    document.getElementById('move-right').addEventListener('touchend',e=>{
+    document.getElementById('move-right').addEventListener('touchend', e => {
         keyboard.RIGHT = false;
     });
-    document.getElementById('move-down').addEventListener('touchstart',e=>{
+    document.getElementById('move-down').addEventListener('touchstart', e => {
         keyboard.DOWN = true;
     });
-    document.getElementById('move-down').addEventListener('touchend',e=>{
+    document.getElementById('move-down').addEventListener('touchend', e => {
         keyboard.DOWN = false;
     });
 
-    document.getElementById('attack-fin').addEventListener('touchstart',e=>{
+    document.getElementById('attack-fin').addEventListener('touchstart', e => {
         keyboard.SPACE = true;
     });
-    document.getElementById('attack-fin').addEventListener('touchend',e=>{
+    document.getElementById('attack-fin').addEventListener('touchend', e => {
         keyboard.SPACE = false;
     });
-    document.getElementById('attack-bubble').addEventListener('touchstart',e=>{
+    document.getElementById('attack-bubble').addEventListener('touchstart', e => {
         keyboard.B = true;
     });
-    document.getElementById('attack-bubble').addEventListener('touchend',e=>{
+    document.getElementById('attack-bubble').addEventListener('touchend', e => {
         keyboard.B = false;
     });
 }
@@ -96,27 +97,54 @@ window.addEventListener("keyup", (e) => {
 });
 
 function openFullscreen() {
-    if (canvas.requestFullscreen) {
-        canvas.requestFullscreen();
-    } else if (canvas.webkitRequestFullscreen) { /* Safari */
-        canvas.webkitRequestFullscreen();
-    } else if (canvas.msRequestFullscreen) { /* IE11 */
-        canvas.msRequestFullscreen();
+    main = document.getElementById('main');
+    if (main.requestFullscreen) {
+        main.requestFullscreen();
+    } else if (main.webkitRequestFullscreen) { /* Safari */
+        main.webkitRequestFullscreen();
+    } else if (main.msRequestFullscreen) { /* IE11 */
+        main.msRequestFullscreen();
     }
 }
 
 function clearAllIntervals() {
-    for (let i = 1; i < 99999; i++){ 
+    for (let i = 1; i < 99999; i++) {
         window.clearInterval(i);
         clearTimeout(i);
     }
-  }
+}
 
 function startGame() {
     clearAllIntervals();
-    world = new World(canvas, keyboard);
-    world.level=initLevel();
+    world = new World(canvas, keyboard, mute);
+    world.level = initLevel();
     world.stopGame = false;
     world.gameStatus.setGameState(0);
     document.getElementById('butTryAgain').classList.add('d-none');
 }
+
+function soundOff() {
+    world.muteAllObjects();
+    document.getElementById('volume').innerHTML = butVolumeOn;
+    mute = true;
+}
+
+function soundOn() {
+    world.unMuteAllObjects();
+    document.getElementById('volume').innerHTML = butVolumeOff;
+    mute = false;
+}
+
+let butVolumeOff = /*html*/`
+                    <svg id="volumeOff" onclick="soundOff()" xmlns="http://www.w3.org/2000/svg" height="24"
+                    viewBox="0 -960 960 960" width="24">
+                    <path
+                        d="M792-56 671-177q-25 16-53 27.5T560-131v-82q14-5 27.5-10t25.5-12L480-368v208L280-360H120v-240h128L56-792l56-56 736 736-56 56Zm-8-232-58-58q17-31 25.5-65t8.5-70q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 53-14.5 102T784-288ZM650-422l-90-90v-130q47 22 73.5 66t26.5 96q0 15-2.5 29.5T650-422ZM480-592 376-696l104-104v208Zm-80 238v-94l-72-72H200v80h114l86 86Zm-36-130Z" />
+                </svg>
+`
+let butVolumeOn = /*html*/`
+                    <svg id="volumeOn" onclick="soundOn()" xmlns="http://www.w3.org/2000/svg" height="24"
+                    viewBox="0 -960 960 960" width="24">
+                    <path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320ZM400-606l-86 86H200v80h114l86 86v-252ZM300-480Z"/>
+                    </svg>
+`

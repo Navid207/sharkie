@@ -12,15 +12,19 @@ class World {
     ctx;
     keyboard;
     view_x = 0;
+    mute;
     gameIsOver = false;
     stopGame = true;
 
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, mute) {
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.mute = mute;
         this.ctx = canvas.getContext('2d');
         this.draw();
+        debugger
+        this.checkSound(mute);
     }
 
     setUsedVar() {
@@ -46,10 +50,7 @@ class World {
             this.flipImgBack(object);
         }
 
-        object.drawCollisionArea(this.ctx)
-
-
-
+        //object.drawCollisionArea(this.ctx)
     }
 
     addObjectsToMap(objects) {
@@ -99,7 +100,47 @@ class World {
         this.ctx.restore();
     }
 
-
+    checkSound(mute){
+        if (mute) {
+            this.muteAllObjects();
+        }
+        else{
+            this.unMuteAllObjects();
+        }
+    }
+    
+    muteAllObjects(){
+        this.muteObjects(this.character.sounds);
+        if (this.level.enemys) {
+            this.level.enemys.forEach(e => {
+                this.muteObjects(e.sounds)
+            });
+        }
+        if (this.statusbar) {
+            this.statusbar.forEach(e => {
+                this.muteObjects(e.sounds)
+            });
+        }
+    }
+    unMuteAllObjects(){
+        this.unMuteObjects(this.character.sounds);
+        if (this.level.enemys) {
+            this.level.enemys.forEach(e => {
+                this.unMuteObjects(e.sounds)
+            });
+        }
+        if (this.statusbar) {
+            this.statusbar.forEach(e => {
+                this.unMuteObjects(e.sounds)
+            });
+        }
+    }
+    muteObjects(obj){
+        Object.values(obj).forEach(obj => obj.muted=true)
+    }
+    unMuteObjects(obj){
+        Object.values(obj).forEach(obj => obj.muted=false)
+    }    
 
     //////////// Update Logic
 
@@ -296,6 +337,9 @@ class World {
         document.getElementById('butTryAgain').classList.remove('d-none');
         document.getElementById('')
     }
+
+
+
 
 
 

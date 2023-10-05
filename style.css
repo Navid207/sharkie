@@ -75,8 +75,10 @@ canvas {
 }
 
 .hiddenElement {
-    position: absolute;
-    top: 55vh;
+    display: flex;
+    position: relative;
+    bottom: calc(55px);
+    justify-content: center;
 }
 
 .hiddenElement img {

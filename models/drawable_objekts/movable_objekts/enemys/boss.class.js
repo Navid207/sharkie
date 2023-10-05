@@ -10,6 +10,11 @@ class Boss extends MovableObject {
     onCollisionCourse = false;
     activState;
 
+    sounds = {
+        bite: new Audio('audio/bite.wav'),
+        hurt: new Audio('audio/Hurt_Boss.wav'),
+    }
+
     collOffset = {
         x: 20,
         y: 160,
@@ -77,6 +82,7 @@ class Boss extends MovableObject {
 
     animate() {
         setInterval(() => {
+            this.playAudio();
             this.setNewState();
             if (this.activState > 0) {
                 this.attack();
@@ -146,5 +152,25 @@ class Boss extends MovableObject {
         }, this.attackTime);
     }
 
+    playAudio(mute) {
+        if (!mute){
+        if (this.activState == 3 && this.oldState == 3 && this.actImage == 1) {
+            this.sounds.bite.currentTime=0;
+            this.sounds.bite.play();
+            return
+        }
+        if (this.activState == 4 && this.oldState == 4 && this.actImage == 1) {
+            this.sounds.hurt.currentTime=0;
+            this.sounds.hurt.play();
+            return
+        }
+        if (this.activState == 100 && this.oldState == 100 && this.actImage == 1) {
+            this.sounds.hurt.currentTime=0;
+            this.sounds.hurt.play();
+            return
+        }
+        }
+
+    }
 
 }
