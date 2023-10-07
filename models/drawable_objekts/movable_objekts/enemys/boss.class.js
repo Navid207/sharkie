@@ -121,6 +121,7 @@ class Boss extends MovableObject {
         }
         if (this.isDead()) {
             this.hurt = false;
+            this.onCollisionCourse = false;
             return this.activState = 100
         }
         if (this.hurt) {

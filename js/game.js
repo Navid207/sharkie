@@ -120,6 +120,16 @@ function openFullscreen() {
     } else if (main.msRequestFullscreen) { /* IE11 */
         main.msRequestFullscreen();
     }
+    document.getElementById('fullscreen').setAttribute('onclick','closeFullscreen()');
+}
+
+function closeFullscreen() {
+    document.getElementById('fullscreen').setAttribute('onclick','openFullscreen()');
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
 }
 
 function clearAllIntervals() {

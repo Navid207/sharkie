@@ -46,25 +46,17 @@ class World {
     }
 
     addToMap(object) {
-        if (object.imgCahangeDirection) {
-            this.flipImg(object);
-        }
-
+        if (object.imgCahangeDirection) this.flipImg(object);
         object.drawImage(this.ctx);
-
-        if (object.imgCahangeDirection) {
-            this.flipImgBack(object);
-        }
-
+        if (object.imgCahangeDirection) this.flipImgBack(object);
         //object.drawCollisionArea(this.ctx)
     }
 
     addObjectsToMap(objects) {
-        if (objects) {
-            objects.forEach(o => {
-                this.addToMap(o);
-            })
-        }
+        if (objects) objects.forEach(o => {
+            this.addToMap(o);
+        })
+
     }
 
     draw() {
@@ -76,17 +68,17 @@ class World {
 
         // Um immer sich selbs zu starten so offt wie die Grafikkarte es hergibt
         let self = this;
-        requestAnimationFrame( ()=> self.draw())
+        requestAnimationFrame(() => self.draw())
     }
 
-    DrawGameLoop(){
+    DrawGameLoop() {
         this.update();
         this.ctx.translate(this.view_x, 0);
         this.drawObjects();
         this.ctx.translate(-this.view_x, 0);
     }
 
-    DrawHomeScreen(){
+    DrawHomeScreen() {
         this.addObjectsToMap(this.backgrounds);
     }
 
@@ -113,47 +105,29 @@ class World {
         this.ctx.restore();
     }
 
-    checkSound(mute){
-        if (mute) {
-            this.muteAllObjects();
-        }
-        else{
-            this.unMuteAllObjects();
-        }
+    checkSound(mute) {
+        mute ? this.muteAllObjects() : this.unMuteAllObjects();
     }
 
-    muteAllObjects(){
+    muteAllObjects() {
         this.muteObjects(this.character.sounds);
-        if (this.level.enemys) {
-            this.level.enemys.forEach(e => {
-                this.muteObjects(e.sounds)
-            });
-        }
-        if (this.statusbar) {
-            this.statusbar.forEach(e => {
-                this.muteObjects(e.sounds)
-            });
-        }
+        if (this.level.enemys) this.level.enemys.forEach(e => this.muteObjects(e.sounds));
+        if (this.statusbar) this.statusbar.forEach(e => this.muteObjects(e.sounds));
     }
-    unMuteAllObjects(){
+
+    unMuteAllObjects() {
         this.unMuteObjects(this.character.sounds);
-        if (this.level.enemys) {
-            this.level.enemys.forEach(e => {
-                this.unMuteObjects(e.sounds)
-            });
-        }
-        if (this.statusbar) {
-            this.statusbar.forEach(e => {
-                this.unMuteObjects(e.sounds)
-            });
-        }
+        if (this.level.enemys) this.level.enemys.forEach(e => this.unMuteObjects(e.sounds));
+        if (this.statusbar) this.statusbar.forEach(e => this.unMuteObjects(e.sounds));
     }
-    muteObjects(obj){
-        Object.values(obj).forEach(obj => obj.muted=true)
+
+    muteObjects(obj) {
+        Object.values(obj).forEach(obj => obj.muted = true)
     }
-    unMuteObjects(obj){
-        Object.values(obj).forEach(obj => obj.muted=false)
-    }    
+
+    unMuteObjects(obj) {
+        Object.values(obj).forEach(obj => obj.muted = false)
+    }
 
     //////////// Update Logic
 
@@ -168,22 +142,13 @@ class World {
 
     moveView() {
         if (this.view_x > -880) {
-            if (this.character.x < 50) {
-                this.view_x = 0;
-            } else {
-                this.view_x = -(this.character.x - 50);
-            }
-            if (this.view_x < -880) {
-                this.view_x = -880;
-            }
+            this.view_x = (this.character.x < 50) ? 0 : -(this.character.x - 50);
+            this.view_x = Math.max(this.view_x, -880);
         }
-        if (this.level.enemys.length > 0) {
-            this.level.enemys.forEach(e => {
-                if (e instanceof Boss) {
-                    e.view_x = this.view_x;
-                }
-            });
-        }
+
+        this.level.enemys.forEach(e => {
+            if (e instanceof Boss) e.view_x = this.view_x;
+        });
     }
 
     checkCollisions() {
@@ -208,6 +173,7 @@ class World {
         }
         this.damageTyp = 0;
     }
+
     attackToEnemy() {
         for (let i = 0; i < this.level.enemys.length; i++) {
             if (this.level.enemys[i].isColliding(this.character) & !this.level.enemys[i].hurt) {
@@ -216,6 +182,7 @@ class World {
             }
         }
     }
+
     collecting() {
         for (let i = 0; i < this.level.coins.length; i++) {
             if (this.character.isColliding(this.level.coins[i])) {
@@ -230,6 +197,7 @@ class World {
             }
         }
     }
+
     bubbleState() {
         if (this.bubbles.length > 0) {
             if (this.bubbles[0].atEndPos) {
@@ -244,52 +212,15 @@ class World {
         }
     }
 
-    characterState() {
-        if (this.character.activState >= 100) {
-
-            return
-        }
-        if (this.damageTyp === 2 && (!(this.character.actImage >= 8 && this.character.activState == 8))) {
-            this.character.activState = 8;
-            return;
-        }
-        if (this.damageTyp === 1 && (!(this.character.actImage >= 8 && this.character.oldState == 7))) {
-            this.character.activState = 7;
-            return;
-        }
-        if ((this.keyboard.B && this.gameStatus.collectedPoison > 0) || (this.character.activState == 6 && this.character.actImage <= 8)) {
-            this.addBubble();
-            this.character.activState = 6;
-            return;
-        }
-        if ((this.keyboard.SPACE && (this.character.oldState != 5)) || (this.character.activState == 5 && this.character.actImage <= 8)) {
-            this.character.activState = 5;
-            return;
-        }
-        if ((this.keyboard.DOWN || this.keyboard.UP || this.keyboard.LEFT || this.keyboard.RIGHT)) {
-            this.character.activState = 4;
-            return;
-        }
-        if ((this.character.activState == 2 && this.character.y >= 260) || (this.character.activState == 3)) {
-            this.character.activState = 3;
-            return;
-        }
-        if ((this.character.oldState == 1 && this.character.actImage >= 42) || (this.character.activState == 2)) {
-            this.character.activState = 2;
-            return;
-        }
-        if ((this.character.oldState == 0 && this.character.actImage >= 50) || (this.character.activState == 1 && this.character.actImage <= 42)) {
-            this.character.activState = 1;
-            return;
-        }
-        this.character.activState = 0;
-    }
-
     addBubble() {
-        if (this.character.actImage == 8 && this.character.oldState == 6 && this.bubbles.length < 1) {
+        if (this.buildBubble()) {
             this.bubbles.push(new Bubble(this.character.x, this.character.y, this.character.imgCahangeDirection));
             this.gameStatus.collectedPoison -= 1;
         }
+    }
+
+    buildBubble() {
+        return this.character.actImage == 8 && this.character.oldState == 6 && this.bubbles.length < 1
     }
 
     upadteStatusbar() {
@@ -302,19 +233,8 @@ class World {
     }
 
     setGameStatus() {
-        if (this.character.isDead()) {
-            this.gameOver();
-            return
-        }
-        this.level.enemys.forEach(e => {
-            if (e instanceof Boss) {
-                if (e.isDead()) {
-                    this.youWin();
-                    return
-                }
-            }
-        });
-
+        if (this.character.isDead()) return this.gameOver();
+        if (this.level.enemys.some(e => e instanceof Boss && e.isDead())) return this.youWin();
     }
 
     gameOver() {
@@ -327,7 +247,7 @@ class World {
             setTimeout(() => {
                 this.gameIsOver = true;
                 this.TryAgain();
-                
+
             }, 1500)
         }
     }
@@ -346,10 +266,81 @@ class World {
         }
     }
 
-    TryAgain(){
+    TryAgain() {
         document.getElementById('butTryAgain').classList.remove('d-none');
-        document.getElementById('')
+        document.getElementById('');
     }
+
+    // Character States
+    characterState() {
+        if (this.character.activState >= 100) return
+        if (this.characterElectricDamage()) {
+            this.character.activState = 8;
+            return;
+        }
+        if (this.characterPoisonDamage()) {
+            this.character.activState = 7;
+            return;
+        }
+        if (this.characterBubbleAttack()) {
+            this.addBubble();
+            this.character.activState = 6;
+            return;
+        }
+        if (this.characterFinAttack()) {
+            this.character.activState = 5;
+            return;
+        }
+        if (this.characterSwimm()) {
+            this.character.activState = 4;
+            return;
+        }
+        if (this.characterSleeping()) {
+            this.character.activState = 3;
+            return;
+        }
+        if (this.characterFallingSleeping()) {
+            this.character.activState = 2;
+            return;
+        }
+        if (this.characterLongIdle()) {
+            this.character.activState = 1;
+            return;
+        }
+        this.character.activState = 0;
+    }
+
+    characterElectricDamage() {
+        return this.damageTyp === 2 && (!(this.character.actImage >= 8 && this.character.activState == 8))
+    }
+    characterPoisonDamage() {
+        return this.damageTyp === 1 && (!(this.character.actImage >= 8 && this.character.oldState == 7))
+    }
+    characterBubbleAttack() {
+        return (this.keyboard.B && this.gameStatus.collectedPoison > 0) || (this.character.activState == 6 && this.character.actImage <= 8)
+    }
+    characterFinAttack() {
+        return ((this.keyboard.SPACE && (this.character.oldState != 5)) || (this.character.activState == 5 && this.character.actImage <= 8))
+    }
+    characterSwimm() {
+        return (this.keyboard.DOWN || this.keyboard.UP || this.keyboard.LEFT || this.keyboard.RIGHT)
+    }
+    characterSleeping() {
+        return (this.character.activState == 2 && this.character.y >= 260) || (this.character.activState == 3)
+    }
+    characterFallingSleeping() {
+        return (this.character.oldState == 1 && this.character.actImage >= 42) || (this.character.activState == 2)
+    }
+    characterLongIdle() {
+        return (this.character.oldState == 0 && this.character.actImage >= 50) || (this.character.activState == 1 && this.character.actImage <= 42)
+    }
+
+
+
+
+
+
+
 
 
 

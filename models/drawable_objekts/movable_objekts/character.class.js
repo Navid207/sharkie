@@ -240,41 +240,42 @@ class Character extends MovableObject {
     }
 
     playAudio() {
-        if (this.activState == 5 && this.oldState == 5 && this.actImage >= 5 && this.actImage <= 7) {
+        if (this.audioSlap()) {
             this.sounds.slap.play();
             this.onCollisionCourse = true;
             return
-        }
-        else {
-            this.onCollisionCourse = false;
-        }
-        if (this.activState == 6 && this.oldState == 6 && this.actImage >= 5 && this.actImage <= 7){
-            this.sounds.bubble.play();
-            return
-        }
-        if (this.activState == 7 && this.oldState == 7 && this.actImage >= 0 && this.actImage <=4){
-            this.sounds.hurt.play();
-            return
-        }
-        if (this.activState == 100 && this.oldState == 100 && this.actImage >= 0 && this.actImage <=4){
-            this.sounds.hurt.play();
-            return
-        }
-        if (this.activState == 8 && this.oldState == 8 && this.actImage >= 0 && this.actImage <=3){
-            this.sounds.electric.play();
-            return
-        }
-        if (this.activState == 101 && this.oldState == 101 && this.actImage >= 0 && this.actImage <=5
-            ){
-            this.sounds.electric.play();
-            return
-        }
-        else {
-            this.sounds.electric.pause();
-        }
+        } else this.onCollisionCourse = false;
 
+        if (this.audioBubble()) return this.sounds.bubble.play();
+
+        if (this.audioHurt()) return this.sounds.hurt.play();
+
+        if (this.audioDead()) return this.sounds.hurt.play();
+
+        if (this.audioElectricShock()) return this.sounds.electric.play();
+
+        if (this.audioElectricDead()){
+            return this.sounds.electric.play();
+        }   else this.sounds.electric.pause();
     }
-
+    audioSlap() {
+        return this.activState == 5 && this.oldState == 5 && this.actImage >= 5 && this.actImage <= 7
+    }
+    audioBubble() {
+        return this.activState == 6 && this.oldState == 6 && this.actImage >= 5 && this.actImage <= 7
+    }
+    audioHurt() {
+        return this.activState == 7 && this.oldState == 7 && this.actImage >= 0 && this.actImage <= 4
+    }
+    audioDead() {
+        return this.activState == 100 && this.oldState == 100 && this.actImage >= 0 && this.actImage <= 4
+    }
+    audioElectricShock() {
+        return this.activState == 8 && this.oldState == 8 && this.actImage >= 0 && this.actImage <= 3
+    }
+    audioElectricDead() {
+        return this.activState == 101 && this.oldState == 101 && this.actImage >= 0 && this.actImage <= 5
+    }
 
 
 }
