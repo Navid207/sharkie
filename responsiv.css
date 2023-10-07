@@ -5,6 +5,7 @@
 
     .settings {
         position: absolute;
+        right: 12px;
         top: 0;
     }
 
@@ -16,6 +17,10 @@
 @media only screen and (max-width: 720px) {
     .settings {
         width: unset;
+    }
+
+    #fullscreen{
+        display: none;
     }
 
     canvas {
@@ -37,11 +42,15 @@
         border-radius: 0;
     }
 
+    #fullscreen{
+        display: none;
+    }
+
     .control {
         display: flex;
     }
 
     .hiddenElement {
-        bottom: calc(180px);
+        bottom: 250px;
     }
 }
