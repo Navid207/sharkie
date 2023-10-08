@@ -3,7 +3,6 @@ class Character extends MovableObject {
     width = 200;
     speed = 2;
     damageSatae = 0;
-
     sounds = {
         bubble: new Audio('audio/Bubble.wav'),
         slap: new Audio('audio/FinSlap.wav'),
@@ -18,7 +17,6 @@ class Character extends MovableObject {
         width: -90,
         height: -175
     }
-
 
     IMAGES = {
         IDLE: [
@@ -84,62 +82,62 @@ class Character extends MovableObject {
             'img/1_Sharkie/Swim/6.png'
         ],
         FIN_SLAP: [
-            'img/1_Sharkie/Attack/Fin slap/1.png',
-            'img/1_Sharkie/Attack/Fin slap/2.png',
-            'img/1_Sharkie/Attack/Fin slap/3.png',
-            'img/1_Sharkie/Attack/Fin slap/4.png',
-            'img/1_Sharkie/Attack/Fin slap/5.png',
-            'img/1_Sharkie/Attack/Fin slap/6.png',
-            'img/1_Sharkie/Attack/Fin slap/7.png',
-            'img/1_Sharkie/Attack/Fin slap/8.png'
+            'img/1_Sharkie/Attack/FinSlap/1.png',
+            'img/1_Sharkie/Attack/FinSlap/2.png',
+            'img/1_Sharkie/Attack/FinSlap/3.png',
+            'img/1_Sharkie/Attack/FinSlap/4.png',
+            'img/1_Sharkie/Attack/FinSlap/5.png',
+            'img/1_Sharkie/Attack/FinSlap/6.png',
+            'img/1_Sharkie/Attack/FinSlap/7.png',
+            'img/1_Sharkie/Attack/FinSlap/8.png',
         ],
         BUBBLE_TRAP: [
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/1.png',
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/2.png',
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/3.png',
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/4.png',
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/5.png',
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/6.png',
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/7.png',
-            'img/1_Sharkie/Attack/Bubble trap/For Whale/8.png'
+            'img/1_Sharkie/Attack/Bubble/1.png',
+            'img/1_Sharkie/Attack/Bubble/2.png',
+            'img/1_Sharkie/Attack/Bubble/3.png',
+            'img/1_Sharkie/Attack/Bubble/4.png',
+            'img/1_Sharkie/Attack/Bubble/5.png',
+            'img/1_Sharkie/Attack/Bubble/6.png',
+            'img/1_Sharkie/Attack/Bubble/7.png',
+            'img/1_Sharkie/Attack/Bubble/8.png',
         ],
         DAMAGE_POISON: [
-            'img/1_Sharkie/Hurt/1.Poisoned/1.png',
-            'img/1_Sharkie/Hurt/1.Poisoned/2.png',
-            'img/1_Sharkie/Hurt/1.Poisoned/3.png',
-            'img/1_Sharkie/Hurt/1.Poisoned/4.png',
-            'img/1_Sharkie/Hurt/1.Poisoned/5.png',
+            'img/1_Sharkie/Hurt/Poisoned/1.png',
+            'img/1_Sharkie/Hurt/Poisoned/2.png',
+            'img/1_Sharkie/Hurt/Poisoned/3.png',
+            'img/1_Sharkie/Hurt/Poisoned/4.png',
+            'img/1_Sharkie/Hurt/Poisoned/5.png',
         ],
         DAMAGE_ELECTRIC: [
-            'img/1_Sharkie/Hurt/2.Electric shock/1.png',
-            'img/1_Sharkie/Hurt/2.Electric shock/2.png',
-            'img/1_Sharkie/Hurt/2.Electric shock/3.png',
+            'img/1_Sharkie/Hurt/ElectricShock/1.png',
+            'img/1_Sharkie/Hurt/ElectricShock/2.png',
+            'img/1_Sharkie/Hurt/ElectricShock/3.png',
         ],
         DEAD_POISON: [
-            'img/1_Sharkie/dead/1.Poisoned/1.png',
-            'img/1_Sharkie/dead/1.Poisoned/2.png',
-            'img/1_Sharkie/dead/1.Poisoned/3.png',
-            'img/1_Sharkie/dead/1.Poisoned/4.png',
-            'img/1_Sharkie/dead/1.Poisoned/5.png',
-            'img/1_Sharkie/dead/1.Poisoned/6.png',
-            'img/1_Sharkie/dead/1.Poisoned/7.png',
-            'img/1_Sharkie/dead/1.Poisoned/8.png',
-            'img/1_Sharkie/dead/1.Poisoned/9.png',
-            'img/1_Sharkie/dead/1.Poisoned/10.png',
-            'img/1_Sharkie/dead/1.Poisoned/11.png',
-            'img/1_Sharkie/dead/1.Poisoned/12.png',
+            'img/1_Sharkie/Dead/Poisoned/1.png',
+            'img/1_Sharkie/Dead/Poisoned/2.png',
+            'img/1_Sharkie/Dead/Poisoned/3.png',
+            'img/1_Sharkie/Dead/Poisoned/4.png',
+            'img/1_Sharkie/Dead/Poisoned/5.png',
+            'img/1_Sharkie/Dead/Poisoned/6.png',
+            'img/1_Sharkie/Dead/Poisoned/7.png',
+            'img/1_Sharkie/Dead/Poisoned/8.png',
+            'img/1_Sharkie/Dead/Poisoned/9.png',
+            'img/1_Sharkie/Dead/Poisoned/10.png',
+            'img/1_Sharkie/Dead/Poisoned/11.png',
+            'img/1_Sharkie/Dead/Poisoned/12.png',
         ],
         DEAD_ELECTRIC: [
-            'img/1_Sharkie/dead/2.Electro_shock/1.png',
-            'img/1_Sharkie/dead/2.Electro_shock/2.png',
-            'img/1_Sharkie/dead/2.Electro_shock/3.png',
-            'img/1_Sharkie/dead/2.Electro_shock/4.png',
-            'img/1_Sharkie/dead/2.Electro_shock/5.png',
-            'img/1_Sharkie/dead/2.Electro_shock/6.png',
-            'img/1_Sharkie/dead/2.Electro_shock/7.png',
-            'img/1_Sharkie/dead/2.Electro_shock/8.png',
-            'img/1_Sharkie/dead/2.Electro_shock/9.png',
-            'img/1_Sharkie/dead/2.Electro_shock/10.png',
+            'img/1_Sharkie/Dead/ElectroShock/1.png',
+            'img/1_Sharkie/Dead/ElectroShock/2.png',
+            'img/1_Sharkie/Dead/ElectroShock/3.png',
+            'img/1_Sharkie/Dead/ElectroShock/4.png',
+            'img/1_Sharkie/Dead/ElectroShock/5.png',
+            'img/1_Sharkie/Dead/ElectroShock/6.png',
+            'img/1_Sharkie/Dead/ElectroShock/7.png',
+            'img/1_Sharkie/Dead/ElectroShock/8.png',
+            'img/1_Sharkie/Dead/ElectroShock/9.png',
+            'img/1_Sharkie/Dead/ElectroShock/10.png',
         ]
 
     }
@@ -154,90 +152,99 @@ class Character extends MovableObject {
 
     move() {
         setInterval(() => {
-            if (this.activState == 4 && this.keyboard.LEFT && (this.x > this.xMin) && !(this.x == 840)) {
-                this.moveLeft();
+            if (this.moveLeft()) {
+                super.moveLeft();
                 this.imgCahangeDirection = true;
             }
-            if (this.activState == 4 && this.keyboard.RIGHT && (this.x < this.xMax)) {
-                this.moveRight();
+            if (this.moveRight()) {
+                super.moveRight();
                 this.imgCahangeDirection = false;
             }
-            if (this.activState == 4 && this.keyboard.UP && (this.y > this.yMin)) {
-                this.moveUp();
-            }
-            if (((this.activState == 4 && this.keyboard.DOWN) || this.activState == 2) && (this.y < this.yMax)) {
-                this.moveDown();
-            }
+            if (this.moveUp()) super.moveUp();
+
+            if (this.moveDown()) super.moveDown();
 
         }, 1000 / 60);
     }
+    moveLeft() {
+        return this.activState == 4 && this.keyboard.LEFT && (this.x > this.xMin) && !(this.x == 840);
+    }
+    moveRight() {
+        return this.activState == 4 && this.keyboard.RIGHT && (this.x < this.xMax);
+    }
+    moveUp() {
+        return this.activState == 4 && this.keyboard.UP && (this.y > this.yMin);
+    }
+    moveDown() {
+        return ((this.activState == 4 && this.keyboard.DOWN) || this.activState == 2) && (this.y < this.yMax);
+    }
+
 
     animate() {
         setInterval(() => {
-            if (this.activState != this.oldState) {
-                this.oldState = this.activState;
-                this.actImage = 0;
-                if (this.activState == 7) {
-                    this.HP -= 20;
-                    if (this.isDead()) {
-                        this.activState = 100;
-                    }
-                }
-                if (this.activState == 8) {
-                    this.HP -= 40;
-                    if (this.isDead()) {
-                        this.activState = 101;
-                    }
-                }
-            }
-            //console.log('aktiv state is ' + this.activState + ' old state is ' + this.oldState + ' HP=' + this.HP);
-
-            switch (this.activState) {
-                case 4:
-                    this.changeImg(this.IMAGES.SWIM);
-                    this.speed = 2;
-                    break;
-                case 5:
-                    this.changeImg(this.IMAGES.FIN_SLAP);
-                    break;
-                case 6:
-                    this.changeImg(this.IMAGES.BUBBLE_TRAP);
-                    break;
-                case 7:
-                    this.changeImg(this.IMAGES.DAMAGE_POISON);
-                    break;
-                case 8:
-                    this.changeImg(this.IMAGES.DAMAGE_ELECTRIC);
-                    break;
-                case 1:
-                    this.changeImg(this.IMAGES.LONG_IDLE);
-                    break;
-                case 2:
-                    this.changeImg(this.IMAGES.FALLING_TO_SLEEP);
-                    this.speed = 0.5;
-                    break;
-                case 3:
-                    this.changeImg(this.IMAGES.SLEEPING);
-                    break;
-
-                case 100:
-                    if (this.actImage <= 11) {
-                        this.changeImg(this.IMAGES.DEAD_POISON);
-                    }
-                    break;
-                case 101:
-                    if (this.actImage <= 9) {
-                        this.changeImg(this.IMAGES.DEAD_ELECTRIC);
-                    }
-                    break;
-                default:
-                    this.changeImg(this.IMAGES.IDLE);
-            }
-
+            if (this.activState != this.oldState) this.changeState();
+            this.switchImg();
             this.playAudio();
-
         }, 100);
     }
+    changeState() {
+        this.oldState = this.activState;
+        this.actImage = 0;
+        if (this.activState == 7) this.poisonDamage();
+        if (this.activState == 8) this.electricDamage();
+    }
+    poisonDamage() {
+        this.HP -= 20;
+        if (this.isDead()) this.activState = 100;
+    }
+    electricDamage() {
+        this.HP -= 40;
+        if (this.isDead()) this.activState = 101;
+    }
+    switchImg() {
+        switch (this.activState) {
+            case 4:
+                super.changeImg(this.IMAGES.SWIM);
+                this.speed = 2;
+                break;
+            case 5:
+                super.changeImg(this.IMAGES.FIN_SLAP);
+                break;
+            case 6:
+                super.changeImg(this.IMAGES.BUBBLE_TRAP);
+                break;
+            case 7:
+                super.changeImg(this.IMAGES.DAMAGE_POISON);
+                break;
+            case 8:
+                super.changeImg(this.IMAGES.DAMAGE_ELECTRIC);
+                break;
+            case 1:
+                super.changeImg(this.IMAGES.LONG_IDLE);
+                break;
+            case 2:
+                super.changeImg(this.IMAGES.FALLING_TO_SLEEP);
+                this.speed = 0.5;
+                break;
+            case 3:
+                super.changeImg(this.IMAGES.SLEEPING);
+                break;
+
+            case 100:
+                if (this.actImage <= 11) {
+                    super.changeImg(this.IMAGES.DEAD_POISON);
+                }
+                break;
+            case 101:
+                if (this.actImage <= 9) {
+                    super.changeImg(this.IMAGES.DEAD_ELECTRIC);
+                }
+                break;
+            default:
+                super.changeImg(this.IMAGES.IDLE);
+        }
+    }
+
 
     playAudio() {
         if (this.audioSlap()) {
@@ -254,9 +261,9 @@ class Character extends MovableObject {
 
         if (this.audioElectricShock()) return this.sounds.electric.play();
 
-        if (this.audioElectricDead()){
+        if (this.audioElectricDead()) {
             return this.sounds.electric.play();
-        }   else this.sounds.electric.pause();
+        } else this.sounds.electric.pause();
     }
     audioSlap() {
         return this.activState == 5 && this.oldState == 5 && this.actImage >= 5 && this.actImage <= 7
@@ -276,7 +283,5 @@ class Character extends MovableObject {
     audioElectricDead() {
         return this.activState == 101 && this.oldState == 101 && this.actImage >= 0 && this.actImage <= 5
     }
-
-
 }
 

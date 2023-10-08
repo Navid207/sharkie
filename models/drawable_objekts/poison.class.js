@@ -1,4 +1,4 @@
-class Poison extends DrawableObject{
+class Poison extends DrawableObject {
     height = 50;
     width = 50;
     onCollisionCourse = true;
@@ -8,8 +8,8 @@ class Poison extends DrawableObject{
         y: 15,
         width: -30,
         height: -20
-    }  
-    
+    }
+
 
     IMAGES = {
         POISON: [
@@ -24,7 +24,7 @@ class Poison extends DrawableObject{
         ]
     }
 
-    constructor(x,y) {
+    constructor(x, y) {
         super().loadImage(this.IMAGES.POISON[0]);
         this.loadImages(this.IMAGES);
         this.animate();

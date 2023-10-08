@@ -53,45 +53,46 @@ class Puffer extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.activState != this.oldState) {
-                this.oldState = this.activState;
-                this.actImage = 0;
-            }
-
-            //Time to set onCollisionCourse to TRUE for the attack
-            setTimeout(() => {
-                if (!this.onCollisionCourse && this.HP>0) {
-                    this.onCollisionCourse = true;
-                } else { return }
-            }, this.attackTime)
-
-            if (this.isDead()) {
-                this.activState = 100;
-                this.speed = 0;
-                this.onCollisionCourse = false;
-                if (this.actImage <= 3 || this.oldState != 100 ) {
-                    this.changeImg(this.IMAGES.DEAD);
-                }
-                return
-            }
-
-            if ((this.onCollisionCourse && this.actImage == 4) || this.activState == 2) {
-                this.changeImg(this.IMAGES.ATTACK);
-                this.activState = 2;
-                if (this.speed < 2) {
-                    this.speed = this.speed + this.speed;
-                }
-                return
-            }
-            if (!this.onCollisionCourse) {
-                this.changeImg(this.IMAGES.SWIM);
-                this.activState = 1;
-            } else {
-                this.changeImg(this.IMAGES.TRANSFORM);
-                this.activState = 2;
-            }
+            this.setNewState();
+            this.delayAttack();
+            this.pufferState();
         }, 200 - (200 * this.speed));
     }
+
+    delayAttack() {
+        setTimeout(() => {
+            if (!this.onCollisionCourse && this.HP > 0) this.onCollisionCourse = true;
+        }, this.attackTime)
+    }
+
+    pufferState() {
+        if (super.isDead()) {
+            this.activState = 100;
+            this.speed = 0;
+            this.onCollisionCourse = false;
+            if (this.actImage <= 3 || this.oldState != 100) {
+                this.changeImg(this.IMAGES.DEAD);
+            }
+            return
+        }
+
+        if ((this.onCollisionCourse && this.actImage == 4) || this.activState == 2) {
+            this.changeImg(this.IMAGES.ATTACK);
+            this.activState = 2;
+            if (this.speed < 2) {
+                this.speed = this.speed + this.speed;
+            }
+            return
+        }
+        if (!this.onCollisionCourse) {
+            this.changeImg(this.IMAGES.SWIM);
+            this.activState = 1;
+        } else {
+            this.changeImg(this.IMAGES.TRANSFORM);
+            this.activState = 2;
+        }
+    }
+
 
     swimLeft() {
         setInterval(() => {

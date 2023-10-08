@@ -3,19 +3,13 @@ class MovableObject extends DrawableObject {
     xMax = 1430;
     yMin = -110;
     yMax = 280;
-
     activState = 0;
     oldState;
     speed = 0;
     HP = 100;
-
-    
     onCollisionCourse = true;
     hurt = false;
-
     keyboard = new Keyboard;
-
-
 
 
     moveRight() {
@@ -66,8 +60,4 @@ class MovableObject extends DrawableObject {
             this.actImage = 0;
         }
     }
-
-
-
-
 }

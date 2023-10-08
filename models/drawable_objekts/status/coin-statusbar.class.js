@@ -3,7 +3,7 @@ class CoinStatusbar extends MovableObject {
     y = 30;
     height = 50;
     width = 200;
-    oldState =0;
+    oldState = 0;
 
     sounds = {
         coin: new Audio('audio/coins.wav'),
@@ -25,7 +25,6 @@ class CoinStatusbar extends MovableObject {
     }
 
     setCoin(COIN) {
-
         switch (COIN) {
             case (5):
                 this.loadImage(this.IMAGES.COIN[5]);
@@ -54,11 +53,11 @@ class CoinStatusbar extends MovableObject {
     }
 
     playAudio(state) {
-        if (state > this.oldState){
+        if (state > this.oldState) {
             this.sounds.coin.currentTime = 0;
             this.sounds.coin.play();
             this.oldState = state;
-        }         
+        }
     }
 
 }

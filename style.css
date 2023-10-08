@@ -3,7 +3,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('img/3_Background/Legacy/Layers/5. Water/L1.png');
+    background-image: url('img/3_Background/Layers/Water/L1.png');
     font-family: 'luckiestGuy', Arial, Helvetica, sans-serif;
     font-size: larger;
     overflow-y: hidden;

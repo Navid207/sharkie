@@ -5,14 +5,14 @@ class Coin extends DrawableObject {
 
     IMAGES = {
         COIN: [
-            'img/4_Markers/1. Coins/1.png',
-            'img/4_Markers/1. Coins/2.png',
-            'img/4_Markers/1. Coins/3.png',
-            'img/4_Markers/1. Coins/4.png',
+            'img/4_Markers/Coins/1.png',
+            'img/4_Markers/Coins/2.png',
+            'img/4_Markers/Coins/3.png',
+            'img/4_Markers/Coins/4.png',
         ]
     }
 
-    constructor(x,y) {
+    constructor(x, y) {
         super().loadImage(this.IMAGES.COIN[0]);
         this.loadImages(this.IMAGES);
         this.animate();

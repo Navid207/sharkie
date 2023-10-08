@@ -16,9 +16,9 @@ class DrawableObject {
         y: 0,
         width: 0,
         height: 0
-    }  
+    }
 
-    sounds={};
+    sounds = {};
 
 
     loadImage(path) {
@@ -30,13 +30,15 @@ class DrawableObject {
         for (const key in images) {
             if (images.hasOwnProperty(key)) {
                 const pathList = images[key];
-                pathList.forEach((path) => {
-                    let img = new Image();
-                    img.src = path;
-                    this.imageCache[path] = img;
-                });
+                pathList.forEach((path) => this.setImageCache(path));
             }
         }
+    }
+
+    setImageCache(path) {
+        let img = new Image();
+        img.src = path;
+        this.imageCache[path] = img;
     }
 
     changeImg(animationArr) {
@@ -51,14 +53,17 @@ class DrawableObject {
     }
 
     drawCollisionArea(ctx) {
-        // rectangel for collisions detection
-        if (this instanceof Character || this instanceof Coin || this instanceof Poison || this instanceof Jally || this instanceof Puffer || this instanceof Boss) {
+        if (this.instanceofObjects()) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "red";
             ctx.rect((this.x + this.collOffset.x), (this.y + this.collOffset.y), (this.width + this.collOffset.width), (this.height + this.collOffset.height));
             ctx.stroke();
         }
+    }
+
+    instanceofObjects() {
+        return (this instanceof Character || this instanceof Coin || this instanceof Poison || this instanceof Jally || this instanceof Puffer || this instanceof Boss);
     }
 
 }

@@ -27,43 +27,24 @@ function init() {
 }
 
 function buttonEwentListner() {
-    document.getElementById('move-left').addEventListener('touchstart', e => {
-        keyboard.LEFT = true;
-    });
-    document.getElementById('move-left').addEventListener('touchend', e => {
-        keyboard.LEFT = false;
-    });
-    document.getElementById('move-up').addEventListener('touchstart', e => {
-        keyboard.UP = true;
-    });
-    document.getElementById('move-up').addEventListener('touchend', e => {
-        keyboard.UP = false;
-    });
-    document.getElementById('move-right').addEventListener('touchstart', e => {
-        keyboard.RIGHT = true;
-    });
-    document.getElementById('move-right').addEventListener('touchend', e => {
-        keyboard.RIGHT = false;
-    });
-    document.getElementById('move-down').addEventListener('touchstart', e => {
-        keyboard.DOWN = true;
-    });
-    document.getElementById('move-down').addEventListener('touchend', e => {
-        keyboard.DOWN = false;
-    });
-
-    document.getElementById('attack-fin').addEventListener('touchstart', e => {
-        keyboard.SPACE = true;
-    });
-    document.getElementById('attack-fin').addEventListener('touchend', e => {
-        keyboard.SPACE = false;
-    });
-    document.getElementById('attack-bubble').addEventListener('touchstart', e => {
-        keyboard.B = true;
-    });
-    document.getElementById('attack-bubble').addEventListener('touchend', e => {
-        keyboard.B = false;
-    });
+    moveBtn();
+    attackBtn();
+}
+function moveBtn() {
+    document.getElementById('move-left').addEventListener('touchstart', e => keyboard.LEFT = true);
+    document.getElementById('move-left').addEventListener('touchend', e => keyboard.LEFT = false);
+    document.getElementById('move-up').addEventListener('touchstart', e => keyboard.UP = true);
+    document.getElementById('move-up').addEventListener('touchend', e => keyboard.UP = false);
+    document.getElementById('move-right').addEventListener('touchstart', e => keyboard.RIGHT = true);
+    document.getElementById('move-right').addEventListener('touchend', e => keyboard.RIGHT = false);
+    document.getElementById('move-down').addEventListener('touchstart', e => keyboard.DOWN = true);
+    document.getElementById('move-down').addEventListener('touchend', e => keyboard.DOWN = false);
+}
+function attackBtn() {
+    document.getElementById('attack-fin').addEventListener('touchstart', e => keyboard.SPACE = true);
+    document.getElementById('attack-fin').addEventListener('touchend', e => keyboard.SPACE = false);
+    document.getElementById('attack-bubble').addEventListener('touchstart', e => keyboard.B = true);
+    document.getElementById('attack-bubble').addEventListener('touchend', e => keyboard.B = false);
 }
 
 window.addEventListener("keydown", (e) => {
@@ -113,23 +94,16 @@ window.addEventListener("keyup", (e) => {
 
 function openFullscreen() {
     main = document.getElementById('main');
-    if (main.requestFullscreen) {
-        main.requestFullscreen();
-    } else if (main.webkitRequestFullscreen) { /* Safari */
-        main.webkitRequestFullscreen();
-    } else if (main.msRequestFullscreen) { /* IE11 */
-        main.msRequestFullscreen();
-    }
-    document.getElementById('fullscreen').setAttribute('onclick','closeFullscreen()');
+    if (main.requestFullscreen) main.requestFullscreen();
+    else if (main.webkitRequestFullscreen) main.webkitRequestFullscreen();  /* Safari */
+    else if (main.msRequestFullscreen) main.msRequestFullscreen();          /* IE11 */
+    document.getElementById('fullscreen').setAttribute('onclick', 'closeFullscreen()');
 }
 
 function closeFullscreen() {
-    document.getElementById('fullscreen').setAttribute('onclick','openFullscreen()');
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-    }
+    document.getElementById('fullscreen').setAttribute('onclick', 'openFullscreen()');
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
 
 function clearAllIntervals() {
@@ -171,9 +145,9 @@ function closeInfo() {
     let info = document.getElementById('introduction');
     info.classList.remove('slide-in');
     info.classList.add('slide-out');
-    setTimeout(() => {
-        info.classList.remove('slide-out');
-        info.classList.add('d-none');
-    }
-        , 500)
+    setTimeout(() => removeSlideOut(info), 500)
+}
+function removeSlideOut(info) {
+    info.classList.remove('slide-out');
+    info.classList.add('d-none');
 }

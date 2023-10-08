@@ -1,9 +1,9 @@
-class PoisonStatusbar extends MovableObject{
+class PoisonStatusbar extends MovableObject {
     x = 60;
     y = 65;
     height = 50;
     width = 200;
-    oldState =0;
+    oldState = 0;
 
     sounds = {
         blub: new Audio('audio/blub.mp3'),
@@ -54,11 +54,11 @@ class PoisonStatusbar extends MovableObject{
     }
 
     playAudio(state) {
-        if (state > this.oldState){
+        if (state > this.oldState) {
             this.sounds.blub.currentTime = 0;
             this.sounds.blub.play();
             this.oldState = state;
-        }         
+        }
     }
 
 }

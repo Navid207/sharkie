@@ -16,11 +16,11 @@ class World {
     gameIsOver = false;
     stopGame = true;
     backgrounds = [
-        new Background('img/3_Background/Layers/5. Water/D.png', 0),
-        new Background('img/3_Background/Layers/4.Fondo 2/D.png', 300),
-        new Background('img/3_Background/Layers/3.Fondo 1/D.png', -200),
-        new Background('img/3_Background/Layers/1. Light/COMPLETO.png', 200),
-        new Background('img/3_Background/Layers/2. Floor/D.png', -300)
+        new Background('img/3_Background/Layers/Water/D.png', 0),
+        new Background('img/3_Background/Layers/Background2/D.png', 300),
+        new Background('img/3_Background/Layers/Background1/D.png', -200),
+        new Background('img/3_Background/Layers/Light/COMPLETO.png', 200),
+        new Background('img/3_Background/Layers/Floor/D.png', -300)
     ];
 
 
@@ -38,9 +38,7 @@ class World {
         this.character.keyboard = this.keyboard;
         this.character.xMax = this.level.endPos;
         this.level.enemys.forEach(e => {
-            if (e instanceof Boss) {
-                e.showPos = this.level.bossPos;
-            }
+            if (e instanceof Boss) e.showPos = this.level.bossPos;
         });
 
     }
@@ -49,7 +47,7 @@ class World {
         if (object.imgCahangeDirection) this.flipImg(object);
         object.drawImage(this.ctx);
         if (object.imgCahangeDirection) this.flipImgBack(object);
-        //object.drawCollisionArea(this.ctx)
+        // object.drawCollisionArea(this.ctx)
     }
 
     addObjectsToMap(objects) {
@@ -133,12 +131,11 @@ class World {
 
     update() {
         this.setUsedVar();
-
         this.checkCollisions();
         this.characterState();
         this.upadteStatusbar();
-
     }
+
 
     moveView() {
         if (this.view_x > -880) {
@@ -151,82 +148,93 @@ class World {
         });
     }
 
+
     checkCollisions() {
-        this.attackToCharacter();
-        this.attackToEnemy();
+        this.collisionCharacter();
+        this.collisionEnemys();
         this.collecting();
         this.bubbleState();
     }
 
-    attackToCharacter() {
-        for (const e of this.level.enemys) {
-            if (this.character.isColliding(e) && e.damageSatae == 0 && !(this.character.activState == 5)) {
-                this.damageTyp = e.damageTyp;
-                if (e.damageSatae == 0) {
-                    setTimeout(() => {
-                        e.damageSatae = 1;
-                        return;
-                    }, 500)
-                }
+    collisionCharacter() {
+        for (const enemy of this.level.enemys) {
+            if (this.attackToCharacterPossible(enemy)) {
+                this.attackCharacter(enemy);
                 return;
             }
         }
         this.damageTyp = 0;
     }
-
-    attackToEnemy() {
-        for (let i = 0; i < this.level.enemys.length; i++) {
-            if (this.level.enemys[i].isColliding(this.character) & !this.level.enemys[i].hurt) {
-                this.level.enemys[i].HP = this.level.enemys[i].HP - 20;
-                this.level.enemys[i].hurt = true;
-            }
+    attackToCharacterPossible(e) {
+        return (this.character.isColliding(e) && e.damageSatae == 0 && !(this.character.oldState == 5 && this.character.actImage >= 2))
+    }
+    attackCharacter(enemy) {
+        this.damageTyp = enemy.damageTyp;
+        if (enemy.damageSatae === 0) {
+            setTimeout(() => enemy.damageSatae = 1, 500);
         }
+    }
+
+    collisionEnemys() {
+        for (let i = 0; i < this.level.enemys.length; i++) {
+            if (this.attackToEnemyPossible(i)) this.attackEnemy(i)
+        }
+    }
+    attackToEnemyPossible(i) {
+        return (this.level.enemys[i].isColliding(this.character) & !this.level.enemys[i].hurt);
+    }
+    attackEnemy(i) {
+        this.level.enemys[i].HP = this.level.enemys[i].HP - 20;
+        this.level.enemys[i].hurt = true;
     }
 
     collecting() {
         for (let i = 0; i < this.level.coins.length; i++) {
-            if (this.character.isColliding(this.level.coins[i])) {
-                this.gameStatus.collectedCoins += 1;
-                this.level.coins.splice(i, 1);
-            }
+            if (this.character.isColliding(this.level.coins[i])) this.collectingCoin(i);
         }
         for (let i = 0; i < this.level.poison.length; i++) {
-            if (this.character.isColliding(this.level.poison[i])) {
-                this.gameStatus.collectedPoison += 1;
-                this.level.poison.splice(i, 1);
-            }
+            if (this.character.isColliding(this.level.poison[i])) this.collectingPoison(i);
         }
     }
+    collectingCoin(pos) {
+        this.gameStatus.collectedCoins += 1;
+        this.level.coins.splice(pos, 1);
+    }
+    collectingPoison(pos) {
+        this.gameStatus.collectedPoison += 1;
+        this.level.poison.splice(pos, 1);
+    }
+
 
     bubbleState() {
         if (this.bubbles.length > 0) {
-            if (this.bubbles[0].atEndPos) {
-                this.bubbles.splice(0, 1);
-                return
-            }
-            if (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0])) {
-                this.level.enemys[(this.level.enemys.length - 1)].HP = this.level.enemys[(this.level.enemys.length - 1)].HP - 20;
-                this.level.enemys[(this.level.enemys.length - 1)].hurt = true;
-                this.bubbles.splice(0, 1);
-            }
+            if (this.bubbles[0].atEndPos) this.bubbles.splice(0, 1);
+            else if (this.attacktoBossPossible()) this.attackBoss()
         }
     }
+    attacktoBossPossible() {
+        return (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0]));
+    }
+    attackBoss() {
+        this.level.enemys[(this.level.enemys.length - 1)].HP = this.level.enemys[(this.level.enemys.length - 1)].HP - 20;
+        this.level.enemys[(this.level.enemys.length - 1)].hurt = true;
+        this.bubbles.splice(0, 1);
+    }
+
 
     addBubble() {
-        if (this.buildBubble()) {
-            this.bubbles.push(new Bubble(this.character.x, this.character.y, this.character.imgCahangeDirection));
-            this.gameStatus.collectedPoison -= 1;
-        }
+        if (this.isBubbleBuilded()) this.addBubbleToMap();
     }
-
-    buildBubble() {
-        return this.character.actImage == 8 && this.character.oldState == 6 && this.bubbles.length < 1
+    isBubbleBuilded() {
+        return (this.character.actImage == 8 && this.character.oldState == 6 && this.bubbles.length < 1);
+    }
+    addBubbleToMap() {
+        this.bubbles.push(new Bubble(this.character.x, this.character.y, this.character.imgCahangeDirection));
+        this.gameStatus.collectedPoison -= 1;
     }
 
     upadteStatusbar() {
-        this.statusbar.forEach(e => {
-            e.x = (-1 * this.view_x);
-        });
+        this.statusbar.forEach(e => e.x = (-1 * this.view_x));
         this.statusbar[0].setLife(this.character.HP);
         this.statusbar[1].setCoin(this.gameStatus.collectedCoins);
         this.statusbar[2].setPoisonBubbl(this.gameStatus.collectedPoison);
@@ -238,35 +246,34 @@ class World {
     }
 
     gameOver() {
-        if (this.gameIsOver) {
-            this.gameStatus.setGameState(1);
-            this.gameStatus.x = -1 * this.view_x + 115;
-            this.addToMap(this.gameStatus);
-            return
-        } else {
-            setTimeout(() => {
-                this.gameIsOver = true;
-                this.TryAgain();
-
-            }, 1500)
-        }
+        if (this.gameIsOver) this.setGameIsOver();
+        else setTimeout(() => this.delayGameIsOver(), 1500);
+    }
+    setGameIsOver() {
+        this.gameStatus.setGameState(1);
+        this.gameStatus.x = -1 * this.view_x + 115;
+        this.addToMap(this.gameStatus);
+    }
+    delayGameIsOver() {
+        this.gameIsOver = true;
+        this.tryAgain();
     }
 
     youWin() {
-        if (this.gameIsOver) {
-            this.gameStatus.setGameState(2);
-            this.gameStatus.x = -1 * this.view_x;
-            this.addToMap(this.gameStatus);;
-            return
-        } else {
-            setTimeout(() => {
-                this.gameIsOver = true;
-                this.TryAgain();
-            }, 1500)
-        }
+        if (this.gameIsOver) this.setYouWin();
+        else setTimeout(() => this.delayYouWin(), 1500)
+    }
+    setYouWin() {
+        this.gameStatus.setGameState(2);
+        this.gameStatus.x = -1 * this.view_x;
+        this.addToMap(this.gameStatus);
+    }
+    delayYouWin() {
+        this.gameIsOver = true;
+        this.tryAgain();
     }
 
-    TryAgain() {
+    tryAgain() {
         document.getElementById('butTryAgain').classList.remove('d-none');
         document.getElementById('');
     }
@@ -274,64 +281,43 @@ class World {
     // Character States
     characterState() {
         if (this.character.activState >= 100) return
-        if (this.characterElectricDamage()) {
-            this.character.activState = 8;
-            return;
-        }
-        if (this.characterPoisonDamage()) {
-            this.character.activState = 7;
-            return;
-        }
-        if (this.characterBubbleAttack()) {
+        if (this.stateElectricDamage()) return this.character.activState = 8;
+        if (this.statePoisonDamage()) return this.character.activState = 7;
+        if (this.stateBubbleAttack()) {
             this.addBubble();
             this.character.activState = 6;
             return;
         }
-        if (this.characterFinAttack()) {
-            this.character.activState = 5;
-            return;
-        }
-        if (this.characterSwimm()) {
-            this.character.activState = 4;
-            return;
-        }
-        if (this.characterSleeping()) {
-            this.character.activState = 3;
-            return;
-        }
-        if (this.characterFallingSleeping()) {
-            this.character.activState = 2;
-            return;
-        }
-        if (this.characterLongIdle()) {
-            this.character.activState = 1;
-            return;
-        }
+        if (this.stateFinAttack()) return this.character.activState = 5;
+        if (this.stateSwimm()) return this.character.activState = 4;
+        if (this.stateSleeping()) return this.character.activState = 3;
+        if (this.stateFallingSleeping()) return this.character.activState = 2;
+        if (this.stateLongIdle()) return this.character.activState = 1;
         this.character.activState = 0;
     }
 
-    characterElectricDamage() {
+    stateElectricDamage() {
         return this.damageTyp === 2 && (!(this.character.actImage >= 8 && this.character.activState == 8))
     }
-    characterPoisonDamage() {
+    statePoisonDamage() {
         return this.damageTyp === 1 && (!(this.character.actImage >= 8 && this.character.oldState == 7))
     }
-    characterBubbleAttack() {
+    stateBubbleAttack() {
         return (this.keyboard.B && this.gameStatus.collectedPoison > 0) || (this.character.activState == 6 && this.character.actImage <= 8)
     }
-    characterFinAttack() {
+    stateFinAttack() {
         return ((this.keyboard.SPACE && (this.character.oldState != 5)) || (this.character.activState == 5 && this.character.actImage <= 8))
     }
-    characterSwimm() {
+    stateSwimm() {
         return (this.keyboard.DOWN || this.keyboard.UP || this.keyboard.LEFT || this.keyboard.RIGHT)
     }
-    characterSleeping() {
+    stateSleeping() {
         return (this.character.activState == 2 && this.character.y >= 260) || (this.character.activState == 3)
     }
-    characterFallingSleeping() {
+    stateFallingSleeping() {
         return (this.character.oldState == 1 && this.character.actImage >= 42) || (this.character.activState == 2)
     }
-    characterLongIdle() {
+    stateLongIdle() {
         return (this.character.oldState == 0 && this.character.actImage >= 50) || (this.character.activState == 1 && this.character.actImage <= 42)
     }
 
