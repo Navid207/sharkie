@@ -9,19 +9,16 @@ class Boss extends MovableObject {
     attackTime = Math.random() * 5000 + 3000;
     onCollisionCourse = false;
     activState;
-
     sounds = {
         bite: new Audio('audio/bite.wav'),
         hurt: new Audio('audio/Hurt_Boss.wav'),
     }
-
     collOffset = {
         x: 20,
         y: 160,
         width: -45,
         height: -235
     }
-
     IMAGES = {
         COMMING: [
             'img/2_Enemy/3_Final/1.Introduce/1.png',
@@ -84,94 +81,103 @@ class Boss extends MovableObject {
         setInterval(() => {
             this.playAudio();
             this.setNewState();
-            if (this.activState > 0) {
-                this.attack();
-            }
+            if (this.activState > 0) this.attack();
             this.checkState();
-
-            switch (this.activState) {
-                case 1:
-                    this.changeImg(this.IMAGES.COMMING)
-                    break;
-                case 2:
-                    this.changeImg(this.IMAGES.SWIM)
-                    break;
-                case 3:
-                    this.changeImg(this.IMAGES.ATTACK)
-                    break;
-                case 4:
-                    this.changeImg(this.IMAGES.HURT)
-                    break;
-
-                case 100:
-                    if (this.actImage <= 5) {
-                        this.changeImg(this.IMAGES.DEAD)
-                    }
-                    break;
-                default:
-                    break;
-            }
+            this.switchImg();
         }, 200);
     }
 
     checkState() {
-        if ((this.showPos >= this.view_x & !this.activState) || this.activState == 1 && this.actImage < 10) {
-            this.onCollisionCourse = true;
-            return this.activState = 1
-        }
-        if (this.isDead()) {
-            this.hurt = false;
-            this.onCollisionCourse = false;
-            return this.activState = 100
-        }
-        if (this.hurt) {
-            if (this.oldState == 4 && this.actImage >= 3) {
-                this.hurt = false;
-            }
-            return this.activState = 4
-        }
-        if (this.onCollisionCourse) {
-            return this.activState = 3
-        }
-        if (this.activState > 0) {
-            return this.activState = 2
-        }
+        if (this.isCommig()) return this.stateComming();
+        if (this.isDead()) return this.stateIsDead();
+        if (this.hurt) return this.stateHurt();
+        if (this.onCollisionCourse) return this.activState = 3;
+        if (this.activState > 0) return this.activState = 2
     }
+    isCommig() {
+        return (this.showPos >= this.view_x & !this.activState) || this.activState == 1 && this.actImage < 10;
+    }
+    stateComming() {
+        this.onCollisionCourse = true;
+        this.activState = 1
+    }
+    stateIsDead() {
+        this.hurt = false;
+        this.onCollisionCourse = false;
+        this.activState = 100
+    }
+    stateHurt() {
+        if (this.oldState == 4 && this.actImage >= 3) this.hurt = false;
+        this.activState = 4
+    }
+
     attack() {
         if (this.oldState == 3 && this.actImage == 5) {
             this.onCollisionCourse = false;
             this.setAttackDelay();
         }
-
     }
 
     setAttackDelay() {
         setTimeout(() => {
-            this.damageSatae = 0;
-            this.onCollisionCourse = true;
-            this.attackTime = Math.random() * 5000 + 3000;
+            if (!this.isDead()) this.setAttack();
         }, this.attackTime);
     }
 
-    playAudio(mute) {
-        if (!mute){
-        if (this.activState == 3 && this.oldState == 3 && this.actImage == 1) {
-            this.sounds.bite.currentTime=0;
-            this.sounds.bite.play();
-            return
-        }
-        if (this.activState == 4 && this.oldState == 4 && this.actImage == 1) {
-            this.sounds.hurt.currentTime=0;
-            this.sounds.hurt.play();
-            return
-        }
-        if (this.activState == 100 && this.oldState == 100 && this.actImage == 1) {
-            this.sounds.hurt.currentTime=0;
-            this.sounds.hurt.play();
-            return
-        }
-        }
-
+    setAttack() {
+        this.damageSatae = 0;
+        this.onCollisionCourse = true;
+        this.attackTime = Math.random() * 5000 + 3000;
     }
+
+    playAudio() {
+        if (this.isBiteing()) return this.audioBite();
+        if (this.isHurt() || this.isDying()) return this.audioHurt();
+    }
+
+    isBiteing() {
+        return this.activState == 3 && this.oldState == 3 && this.actImage == 1
+    }
+    audioBite() {
+        this.sounds.bite.currentTime = 0;
+        this.sounds.bite.play()
+    }
+
+    isHurt() {
+        return this.activState == 4 && this.oldState == 4 && this.actImage == 1;
+    }
+    isDying() {
+        return this.activState == 100 && this.oldState == 100 && this.actImage == 1;
+    }
+    audioHurt() {
+        this.sounds.hurt.currentTime = 0;
+        this.sounds.hurt.play();
+    }
+
+    switchImg() {
+        switch (this.activState) {
+            case 1:
+                this.changeImg(this.IMAGES.COMMING)
+                break;
+            case 2:
+                this.changeImg(this.IMAGES.SWIM)
+                break;
+            case 3:
+                this.changeImg(this.IMAGES.ATTACK)
+                break;
+            case 4:
+                this.changeImg(this.IMAGES.HURT)
+                break;
+
+            case 100:
+                if (this.actImage <= 5) {
+                    this.changeImg(this.IMAGES.DEAD)
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 
 }

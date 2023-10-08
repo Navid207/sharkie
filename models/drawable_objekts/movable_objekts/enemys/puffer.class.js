@@ -66,39 +66,40 @@ class Puffer extends MovableObject {
     }
 
     pufferState() {
-        if (super.isDead()) {
-            this.activState = 100;
-            this.speed = 0;
-            this.onCollisionCourse = false;
-            if (this.actImage <= 3 || this.oldState != 100) {
-                this.changeImg(this.IMAGES.DEAD);
-            }
-            return
-        }
-
-        if ((this.onCollisionCourse && this.actImage == 4) || this.activState == 2) {
-            this.changeImg(this.IMAGES.ATTACK);
-            this.activState = 2;
-            if (this.speed < 2) {
-                this.speed = this.speed + this.speed;
-            }
-            return
-        }
-        if (!this.onCollisionCourse) {
-            this.changeImg(this.IMAGES.SWIM);
-            this.activState = 1;
-        } else {
-            this.changeImg(this.IMAGES.TRANSFORM);
-            this.activState = 2;
-        }
+        if (super.isDead()) return this.stateIsDead();
+        if (this.isAttacking()) return this.stateAttack();
+        if (!this.onCollisionCourse) this.stateSwimm();
+        else this.stateTransform();
     }
-
+    stateIsDead() {
+        this.activState = 100;
+        this.speed = 0;
+        this.onCollisionCourse = false;
+        if (this.isDead()) this.changeImg(this.IMAGES.DEAD);
+    }
+    isDead() {
+        return (this.actImage <= 3 || this.oldState != 100);
+    }
+    isAttacking() {
+        return (this.onCollisionCourse && this.actImage == 4) || this.activState == 2
+    }
+    stateAttack() {
+        this.changeImg(this.IMAGES.ATTACK);
+        this.activState = 2;
+        if (this.speed < 2) return this.speed = this.speed + this.speed;
+    }
+    stateSwimm() {
+        this.changeImg(this.IMAGES.SWIM);
+        this.activState = 1;
+    }
+    stateTransform() {
+        this.changeImg(this.IMAGES.TRANSFORM);
+        this.activState = 2;
+    }
 
     swimLeft() {
         setInterval(() => {
-            if (this.activState <= 2) {
-                this.moveLeft();
-            }
+            if (this.activState <= 2) this.moveLeft()
         }, 1000 / 60);
     }
 

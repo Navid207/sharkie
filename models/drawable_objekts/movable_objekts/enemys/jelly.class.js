@@ -8,8 +8,6 @@ class Jally extends MovableObject {
     damageTyp = 2;
     damageSatae = 0;
     attackTime = Math.random() * 5000;
-
-
     IMAGES = {
         YELLOW: [
             'img/2_Enemy/2_Jelly/Regular damage/Yellow 1.png',
@@ -34,27 +32,20 @@ class Jally extends MovableObject {
     }
 
     animate() {
-        setInterval(()=>{
-            if (this.onCollisionCourse){
-                this.onCollisionCourse = false;
-                
-            }else{this.onCollisionCourse = true;this.damageSatae = 0;}
-        },this.attackTime)
-         setInterval(() => {
-            if (!this.onCollisionCourse) {
-                this.changeImg(this.IMAGES.YELLOW);
-            } else {
-                this.changeImg(this.IMAGES.ATTACK);
-                // setTimeout(() => {
-                //     this.damageSatae = 0;
-                // }, 1000)
-            }
-        }, 200 - (200 * this.speed));
+        setInterval(() => this.setCollisionCourse(), this.attackTime)
+        setInterval(() => this.checkImgState(), 200 - (200 * this.speed));
+    }
+    setCollisionCourse() {
+        this.onCollisionCourse ? (this.onCollisionCourse = false) : (this.onCollisionCourse = true);
+        if (!this.onCollisionCourse) this.damageSatae = 0;
+    }
+    checkImgState() {
+        (!this.onCollisionCourse) ? this.changeImg(this.IMAGES.YELLOW) : this.changeImg(this.IMAGES.ATTACK);
     }
 
     swimUpDown() {
         setInterval(() => {
-            [this.direction > 0 ? this.moveUp() : this.moveDown()];
+            this.direction > 0 ? this.moveUp() : this.moveDown();
             this.direction = (this.y <= 0) ? -1 : (this.y >= 400) ? 1 : this.direction; // Verkürzte schreibweise bedingte (ternäre) Operator 
         })
     }
