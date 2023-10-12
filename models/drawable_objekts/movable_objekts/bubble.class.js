@@ -2,17 +2,20 @@ class Bubble extends MovableObject {
     height = 35;
     width = 35;
     endPos = 0;
-    speed = 10;
+    speed = 5;
     onCollisionCourse = true;
     atEndPos = false;
 
-    IMAGE = 'img/1_Sharkie/Attack/Bubble/BubbleGreen.png';
+    IMAGES = {
+        GREEN: ['img/1_Sharkie/Attack/Bubble/BubbleGreen.png']
+    }
 
 
 
 
     constructor(posX, posY, direction) {
-        super().loadImage(this.IMAGE);
+        super().loadImage(this.IMAGES.GREEN[0]);
+        this.loadImages(this.IMAGES);
         this.direction = direction;
         this.setPos(posX, posY);
         this.animate();
@@ -39,20 +42,20 @@ class Bubble extends MovableObject {
     setIntervalRight() {
         setInterval(() => {
             (this.x <= this.endPos) ? this.moveRight() : this.atEndPos = true;
-        }, 25)
+        }, 10)
     }
     moveRight() {
         super.moveRight();
-        this.loadImage(this.IMAGE);
+        this.changeImg(this.IMAGES.GREEN);
     }
 
     setIntervalLeft() {
         setInterval(() => {
             (this.x >= this.endPos) ? this.moveLeft() : this.atEndPos = true;
-        }, 25)
+        }, 10)
     }
     moveLeft() {
         super.moveLeft();
-        this.loadImage(this.IMAGE);
+        this.changeImg(this.IMAGES.GREEN);
     }
 }
