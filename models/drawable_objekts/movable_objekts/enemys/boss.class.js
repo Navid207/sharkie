@@ -1,14 +1,17 @@
 class Boss extends MovableObject {
     height = 400;
     width = 400;
-    x = 1200;
-    y = 0;
+    startPosX = 1200;
+    startPosY = 0;
+    targetPosX;
+    targetPosY;
     showPos;
     damageTyp = 1;
     damageSatae = 0;
     attackTime = Math.random() * 5000 + 3000;
     onCollisionCourse = false;
     activState;
+    speed = 10;
     sounds = {
         bite: new Audio('audio/bite.wav'),
         hurt: new Audio('audio/Hurt_Boss.wav'),
@@ -71,8 +74,10 @@ class Boss extends MovableObject {
         ],
     }
 
-    constructor() {
+    constructor(x, y) {
         super().loadImage(this.IMAGES.COMMING[0])
+        this.x = this.startPosX;
+        this.y = this.startPosY;
         this.loadImages(this.IMAGES);
         this.animate();
     }
@@ -92,7 +97,7 @@ class Boss extends MovableObject {
         if (this.isDead()) return this.stateIsDead();
         if (this.hurt) return this.stateHurt();
         if (this.onCollisionCourse) return this.activState = 3;
-        if (this.activState > 0) return this.activState = 2
+        if (this.activState > 0) return this.stateSwimm();
     }
     isCommig() {
         return (this.showPos >= this.view_x & !this.activState) || this.activState == 1 && this.actImage < 10;
@@ -110,6 +115,48 @@ class Boss extends MovableObject {
         if (this.oldState == 4 && this.actImage >= 3) this.hurt = false;
         this.activState = 4
     }
+    stateSwimm() {
+        this.activState = 2;
+        this.move();
+    }
+
+    move() {
+        this.moveVertical();
+        this.moveHorizontal();
+    }
+
+    moveVertical() {
+        if (this.yPosCenter() != this.targetPosY) {
+            (this.yPosCenter() > this.targetPosY) ? this.moveUp() : this.moveDown();
+        }
+    }
+    yPosCenter() {
+        return this.y + this.collOffset.y + ((this.height + this.collOffset.height) / 2);
+    }
+    moveUp() {
+        if (this.y > -160) super.moveUp()
+    }
+    moveDown() {
+        if (this.y < 155) super.moveDown()
+    }
+
+    moveHorizontal() {
+        if (this.xPosCenter() != this.targetPosX) {
+            (this.xPosCenter() > this.targetPosX) ? this.moveLeft() : this.moveRight();
+        }
+    }
+    xPosCenter() {
+        return this.x + this.collOffset.x + ((this.width + this.collOffset.width) / 2);
+    }
+    moveRight() {
+        this.imgCahangeDirection = true;
+        if ((this.xPosCenter() + 150) < this.targetPosX) super.moveRight();
+    }
+    moveLeft() {
+        this.imgCahangeDirection = false;
+        if ((this.xPosCenter() - 150) > this.targetPosX) super.moveLeft();
+    }
+
 
     attack() {
         if (this.oldState == 3 && this.actImage == 5) {

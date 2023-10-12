@@ -1,6 +1,6 @@
 class World {
     character = new Character;
-    level = level1;
+    level;
     damageTyp;
     statusbar = [
         new LifeStatusbar,
@@ -33,16 +33,6 @@ class World {
         this.checkSound(mute);
     }
 
-    setUsedVar() {
-        this.moveView();
-        this.character.keyboard = this.keyboard;
-        this.character.xMax = this.level.endPos;
-        this.level.enemys.forEach(e => {
-            if (e instanceof Boss) e.showPos = this.level.bossPos;
-        });
-
-    }
-
     addToMap(object) {
         if (object.imgCahangeDirection) this.flipImg(object);
         object.drawImage(this.ctx);
@@ -54,16 +44,11 @@ class World {
         if (objects) objects.forEach(o => {
             this.addToMap(o);
         })
-
     }
 
     draw() {
-        if (!this.stopGame && this.level.enemys) {
-            this.DrawGameLoop();
-        } else {
-            this.DrawHomeScreen();
-        }
-
+        if (!this.stopGame && this.level.enemys) this.DrawGameLoop();
+        else this.DrawHomeScreen();
         // Um immer sich selbs zu starten so offt wie die Grafikkarte es hergibt
         let self = this;
         requestAnimationFrame(() => self.draw())
@@ -83,10 +68,10 @@ class World {
     drawObjects() {
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.statusbar);
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.poison);
         this.addObjectsToMap(this.level.enemys);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.bubbles);
         this.setGameStatus();
     }
@@ -109,13 +94,13 @@ class World {
 
     muteAllObjects() {
         this.muteObjects(this.character.sounds);
-        if (this.level.enemys) this.level.enemys.forEach(e => this.muteObjects(e.sounds));
+        if (this.level) this.level.enemys.forEach(e => this.muteObjects(e.sounds));
         if (this.statusbar) this.statusbar.forEach(e => this.muteObjects(e.sounds));
     }
 
     unMuteAllObjects() {
         this.unMuteObjects(this.character.sounds);
-        if (this.level.enemys) this.level.enemys.forEach(e => this.unMuteObjects(e.sounds));
+        if (this.level) this.level.enemys.forEach(e => this.unMuteObjects(e.sounds));
         if (this.statusbar) this.statusbar.forEach(e => this.unMuteObjects(e.sounds));
     }
 
@@ -136,16 +121,37 @@ class World {
         this.upadteStatusbar();
     }
 
+    setUsedVar() {
+        this.moveView();
+        this.character.keyboard = this.keyboard;
+        this.character.xMax = this.level.endPos;
+        this.varForBoss();
+    }
 
     moveView() {
         if (this.view_x > -880) {
             this.view_x = (this.character.x < 50) ? 0 : -(this.character.x - 50);
             this.view_x = Math.max(this.view_x, -880);
         }
-
         this.level.enemys.forEach(e => {
             if (e instanceof Boss) e.view_x = this.view_x;
         });
+    }
+
+    varForBoss() {
+        this.level.enemys.forEach(e => {
+            if (e instanceof Boss) {
+                e.showPos = this.level.bossPos;
+                e.targetPosX = this.characterCenterX();
+                e.targetPosY = this.characterCenterY();
+            }
+        });
+    }
+    characterCenterX() {
+        return this.character.x + this.character.collOffset.x + ((this.character.width + this.character.collOffset.width) / 2)
+    }
+    characterCenterY() {
+        return this.character.y + this.character.collOffset.y + ((this.character.height + this.character.collOffset.height) / 2)
     }
 
 
@@ -220,7 +226,6 @@ class World {
         this.level.enemys[(this.level.enemys.length - 1)].hurt = true;
         this.bubbles.splice(0, 1);
     }
-
 
     addBubble() {
         if (this.isBubbleBuilded()) this.addBubbleToMap();
@@ -320,17 +325,5 @@ class World {
     stateLongIdle() {
         return (this.character.oldState == 0 && this.character.actImage >= 50) || (this.character.activState == 1 && this.character.actImage <= 42)
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
