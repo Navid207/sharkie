@@ -5,7 +5,8 @@ class World {
     statusbar = [
         new LifeStatusbar,
         new CoinStatusbar,
-        new PoisonStatusbar];
+        new PoisonStatusbar
+    ];
     gameStatus = new GameStatus;
     bubbles = [];
     canvas;
@@ -15,6 +16,9 @@ class World {
     mute;
     gameIsOver = false;
     stopGame = true;
+    sounds = {
+        background: new Audio('audio/background.mp3'),
+    }
     backgrounds = [
         new Background('img/3_Background/Layers/Water/D.png', 0),
         new Background('img/3_Background/Layers/Background2/D.png', 300),
@@ -33,19 +37,9 @@ class World {
         this.checkSound(mute);
     }
 
-    addToMap(object) {
-        if (object.imgCahangeDirection) this.flipImg(object);
-        object.drawImage(this.ctx);
-        if (object.imgCahangeDirection) this.flipImgBack(object);
-        // object.drawCollisionArea(this.ctx)
-    }
-
-    addObjectsToMap(objects) {
-        if (objects) objects.forEach(o => {
-            this.addToMap(o);
-        })
-    }
-
+    /**
+     * a loop function to draw the canvas , as often the GPU allows
+     */
     draw() {
         if (!this.stopGame && this.level.enemys) this.DrawGameLoop();
         else this.DrawHomeScreen();
@@ -54,6 +48,11 @@ class World {
         requestAnimationFrame(() => self.draw())
     }
 
+    // Draw Section------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * draw the game Scree and moving the view of the canvas.
+     */
     DrawGameLoop() {
         this.update();
         this.ctx.translate(this.view_x, 0);
@@ -61,10 +60,9 @@ class World {
         this.ctx.translate(-this.view_x, 0);
     }
 
-    DrawHomeScreen() {
-        this.addObjectsToMap(this.backgrounds);
-    }
-
+    /**
+     * a summary of all objects intended to be drawn on the canvass
+     */
     drawObjects() {
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.statusbar);
@@ -76,6 +74,34 @@ class World {
         this.setGameStatus();
     }
 
+    /**
+     * add objects from an array to the "map"
+     * 
+     * @param {ARRAY of Objects} objects 
+     */
+    addObjectsToMap(objects) {
+        if (objects) objects.forEach(o => {
+            this.addToMap(o);
+        })
+    }
+
+    /**
+     * draw an object in the correct direction on the "map" (canvas).
+     * 
+     * @param {Object} object - Object which should be added to the "map" (canvas). 
+     */
+    addToMap(object) {
+        if (object.imgCahangeDirection) this.flipImg(object);
+        object.drawImage(this.ctx);
+        if (object.imgCahangeDirection) this.flipImgBack(object);
+        // object.drawCollisionArea(this.ctx)       // mark a frame for the collision area
+    }
+
+    /**
+     * function to mirror the image
+     * 
+     * @param {Object} object - image to be mirrored
+     */
     flipImg(object) {
         this.ctx.save();
         this.ctx.translate(object.width, 0);
@@ -83,78 +109,134 @@ class World {
         object.x = object.x * -1;
     }
 
+    /**
+     * function to flip the image back 
+     * 
+     * @param {Object} object - image to be flipped back
+     */
     flipImgBack(object) {
         object.x = object.x * -1;
         this.ctx.restore();
     }
 
+    /**
+     * draw the Home Screen
+     */
+    DrawHomeScreen() {
+        this.addObjectsToMap(this.backgrounds);
+    }
+
+    // Sound Section------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * function to check if the game was muted before it starts
+     * @param {Boolean} mute - mute state
+     */
     checkSound(mute) {
         mute ? this.muteAllObjects() : this.unMuteAllObjects();
     }
 
+    /**
+     * summary of all audio elements for muting
+     */
     muteAllObjects() {
         this.muteObjects(this.character.sounds);
+        this.muteObjects(this.sounds);
+        this.muteObjects(this.gameStatus.sounds);
         if (this.level) this.level.enemys.forEach(e => this.muteObjects(e.sounds));
         if (this.statusbar) this.statusbar.forEach(e => this.muteObjects(e.sounds));
     }
 
-    unMuteAllObjects() {
-        this.unMuteObjects(this.character.sounds);
-        if (this.level) this.level.enemys.forEach(e => this.unMuteObjects(e.sounds));
-        if (this.statusbar) this.statusbar.forEach(e => this.unMuteObjects(e.sounds));
-    }
-
+    /**
+     * mute object
+     * @param {JSON of Audio} obj 
+     */
     muteObjects(obj) {
         Object.values(obj).forEach(obj => obj.muted = true)
     }
 
+    /**
+     * summary of all audio elements for unmuting
+     */
+    unMuteAllObjects() {
+        this.unMuteObjects(this.character.sounds);
+        this.unMuteObjects(this.sounds);
+        this.unMuteObjects(this.gameStatus.sounds);
+        if (this.level) this.level.enemys.forEach(e => this.unMuteObjects(e.sounds));
+        if (this.statusbar) this.statusbar.forEach(e => this.unMuteObjects(e.sounds));
+    }
+
+    /**
+     * unmute object
+     * @param {JSON of Audio} obj 
+     */
     unMuteObjects(obj) {
         Object.values(obj).forEach(obj => obj.muted = false)
     }
 
-    //////////// Update Logic
+    // Update Logic------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * summary of functions for the game loop
+     */
     update() {
+        this.moveView();
         this.setUsedVar();
         this.checkCollisions();
         this.characterState();
         this.upadteStatusbar();
     }
 
-    setUsedVar() {
-        this.moveView();
-        this.character.keyboard = this.keyboard;
-        this.character.xMax = this.level.endPos;
-        this.varForBoss();
-    }
-
+    /**
+     * move the view position with the character
+     */
     moveView() {
         if (this.view_x > -880) {
             this.view_x = (this.character.x < 50) ? 0 : -(this.character.x - 50);
             this.view_x = Math.max(this.view_x, -880);
         }
-        this.level.enemys.forEach(e => {
-            if (e instanceof Boss) e.view_x = this.view_x;
-        });
     }
 
+    /**
+     * set variables which required in other objects 
+     */
+    setUsedVar() {
+        this.character.keyboard = this.keyboard;
+        this.character.xMax = this.level.endPos;
+        this.varForBoss();
+    }
+
+    /**
+    * set variables which required for the boss
+    */
     varForBoss() {
         this.level.enemys.forEach(e => {
             if (e instanceof Boss) {
+                e.view_x = this.view_x;
                 e.showPos = this.level.bossPos;
                 e.targetPosX = this.characterCenterX();
                 e.targetPosY = this.characterCenterY();
             }
         });
     }
+    /**
+     * 
+     * @returns the center position of x-achse the image
+     */
     characterCenterX() {
         return this.character.x + this.character.collOffset.x + ((this.character.width + this.character.collOffset.width) / 2)
     }
+    /**
+     * 
+     * @returns the center position of y-achse the image
+     */
     characterCenterY() {
         return this.character.y + this.character.collOffset.y + ((this.character.height + this.character.collOffset.height) / 2)
     }
 
-
+    /**
+     * summary of collision detections for all relevant objects 
+     */
     checkCollisions() {
         this.collisionCharacter();
         this.collisionEnemys();
@@ -162,12 +244,10 @@ class World {
         this.bubbleState();
     }
 
+
     collisionCharacter() {
         for (const enemy of this.level.enemys) {
-            if (this.attackToCharacterPossible(enemy)) {
-                this.attackCharacter(enemy);
-                return;
-            }
+            if (this.attackToCharacterPossible(enemy)) return this.attackCharacter(enemy);
         }
         this.damageTyp = 0;
     }
@@ -248,6 +328,7 @@ class World {
     setGameStatus() {
         if (this.character.isDead()) return this.gameOver();
         if (this.level.enemys.some(e => e instanceof Boss && e.isDead())) return this.youWin();
+        return this.playBgAudio();
     }
 
     gameOver() {
@@ -262,6 +343,8 @@ class World {
     delayGameIsOver() {
         this.gameIsOver = true;
         this.tryAgain();
+        this.stopBgAudio();
+        this.gameStatus.sounds.gameOver.play();
     }
 
     youWin() {
@@ -276,11 +359,24 @@ class World {
     delayYouWin() {
         this.gameIsOver = true;
         this.tryAgain();
+        this.stopBgAudio();
+        this.gameStatus.sounds.winn.play();
     }
 
     tryAgain() {
         document.getElementById('butTryAgain').classList.remove('d-none');
         document.getElementById('');
+    }
+
+    playBgAudio() {
+        if (this.level.bgSound.currentTime == 0 || this.level.bgSound.currentTime >= 16.05) {
+            this.level.bgSound.currentTime = 0;
+            this.sounds.background.play();
+        }
+    }
+
+    stopBgAudio() {
+        return this.sounds.background.pause();
     }
 
     // Character States

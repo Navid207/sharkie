@@ -21,34 +21,34 @@ class PoisonStatusbar extends MovableObject {
     }
 
     constructor() {
-        super().loadImage(this.IMAGES.POISEN[0]);
+        super().loadImages(this.IMAGES);
     }
 
     setPoisonBubbl(POISEN) {
 
         switch (POISEN) {
             case (5):
-                this.loadImage(this.IMAGES.POISEN[5]);
+                this.setImg(this.IMAGES.POISEN[5]);
                 this.playAudio(5);
                 break;
             case (4):
-                this.loadImage(this.IMAGES.POISEN[4]);
+                this.setImg(this.IMAGES.POISEN[4]);
                 this.playAudio(4);
                 break;
             case (3):
-                this.loadImage(this.IMAGES.POISEN[3]);
+                this.setImg(this.IMAGES.POISEN[3]);
                 this.playAudio(3);
                 break;
             case (2):
-                this.loadImage(this.IMAGES.POISEN[2]);
+                this.setImg(this.IMAGES.POISEN[2]);
                 this.playAudio(2);
                 break;
             case (1):
-                this.loadImage(this.IMAGES.POISEN[1]);
+                this.setImg(this.IMAGES.POISEN[1]);
                 this.playAudio(1);
                 break;
             case (0):
-                this.loadImage(this.IMAGES.POISEN[0]);
+                this.setImg(this.IMAGES.POISEN[0]);
                 break;
         }
     }

@@ -150,6 +150,9 @@ class Character extends MovableObject {
         this.animate()
     }
 
+    /**
+     * Interval for Movement of the Character
+     */
     move() {
         setInterval(() => {
             if (this.moveLeft()) {

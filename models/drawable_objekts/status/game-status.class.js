@@ -8,6 +8,10 @@ class GameStatus extends DrawableObject {
             'img/6_Botones/Tittles/winningScreen.png',
         ]
     }
+    sounds = {
+        gameOver : new Audio ('audio/GameOver.wav'),
+        winn : new Audio ('audio/winn.wav')
+    }
 
     constructor() {
         super().loadImages(this.IMAGES);
@@ -30,12 +34,12 @@ class GameStatus extends DrawableObject {
         this.y = 200;
         this.height = 50;
         this.width = 500;
-        this.loadImage(this.IMAGES.STATE[0]);
+        this.setImg(this.IMAGES.STATE[0]);
     }
     stateYouWin() {
         this.height = 480;
         this.width = 720;
         this.y = 0;
-        this.loadImage(this.IMAGES.STATE[1]);
+        this.setImg(this.IMAGES.STATE[1]);
     }
 }

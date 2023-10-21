@@ -11,8 +11,6 @@ class Bubble extends MovableObject {
     }
 
 
-
-
     constructor(posX, posY, direction) {
         super().loadImage(this.IMAGES.GREEN[0]);
         this.loadImages(this.IMAGES);
@@ -46,7 +44,7 @@ class Bubble extends MovableObject {
     }
     moveRight() {
         super.moveRight();
-        this.changeImg(this.IMAGES.GREEN);
+        this.setImg(this.IMAGES.GREEN[0]);
     }
 
     setIntervalLeft() {
@@ -56,6 +54,6 @@ class Bubble extends MovableObject {
     }
     moveLeft() {
         super.moveLeft();
-        this.changeImg(this.IMAGES.GREEN);
+        this.setImg(this.IMAGES.GREEN[0]);
     }
 }

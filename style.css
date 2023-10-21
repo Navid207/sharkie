@@ -4,18 +4,20 @@ body {
     flex-direction: column;
     align-items: center;
     background-image: url('img/3_Background/Layers/Water/L1.png');
+    background-size: cover;
+    height: 100vh;
     font-family: 'luckiestGuy', Arial, Helvetica, sans-serif;
     font-size: larger;
     overflow-y: hidden;
     overflow-x: hidden;
 }
 
-h1{
+h1 {
     text-shadow: -1px 8px 2px rgba(0, 0, 0, 0.5);
     color: rgb(255, 255, 255);
 }
 
-p{
+p {
     color: rgb(71, 71, 71);
 }
 
@@ -34,9 +36,9 @@ svg:hover {
     border-color: #2e2e2e;
 }
 
-#main{
+#main {
     display: flex;
-    flex-direction: column;  
+    flex-direction: column;
 }
 
 .settings {
@@ -100,11 +102,11 @@ canvas {
     cursor: pointer;
 }
 
-#butStartGame:hover{
+#butStartGame:hover {
     content: url('img/6_Botones/Start/2.png');
-}  
+}
 
-#introduction{
+#introduction {
     background-color: rgba(255, 255, 255, 0.75);
     text-align: center;
     overflow: auto;
@@ -115,39 +117,49 @@ canvas {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    animation-timing-function:ease-in-out;
-  }
+    animation-timing-function: ease-in-out;
+}
 
-  .slide-in{
+.slide-in {
     border-radius: 2%;
     animation-name: slide-in;
     animation-duration: 1s;
-    top:0px;
+    top: 0px;
     bottom: 0px;
-  }
-  
-  @keyframes slide-in {
-    0%   {top:-100vh;}
-    100% {top:0px;}
-  }
+}
 
-  .slide-out{
+@keyframes slide-in {
+    0% {
+        top: -100vh;
+    }
+
+    100% {
+        top: 0px;
+    }
+}
+
+.slide-out {
     border-radius: 2%;
     animation-name: slide-out;
     animation-duration: 0.5s;
-    top:100vh;
-  }
+    top: 100vh;
+}
 
-  @keyframes slide-out {
-    0%   {top:0px;}
-    100% {top:100vh;}
-  }
+@keyframes slide-out {
+    0% {
+        top: 0px;
+    }
 
-#introduction p{
+    100% {
+        top: 100vh;
+    }
+}
+
+#introduction p {
     margin: 20px
 }
 
-#introduction img{
+#introduction img {
     border: 2px solid;
     color: #474747;
     border-radius: 100%;
@@ -156,26 +168,26 @@ canvas {
     fill: #ffffff;
 }
 
-.int-control{
+.int-control {
     display: flex;
     justify-content: space-around;
 }
 
-.int-control div{
+.int-control div {
     display: flex;
     flex-direction: column;
     align-items: baseline;
     justify-content: center;
 }
 
-.int-control div p{
+.int-control div p {
     display: flex;
     align-items: center;
     gap: 5px;
     font-size: 14px;
 }
 
-.d-none{
+.d-none {
     display: none !important;
 }
 

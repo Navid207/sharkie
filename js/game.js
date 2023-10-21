@@ -1,8 +1,8 @@
-
 let canvas;
 let world;
 let keyboard = new Keyboard;
 let mute = false;
+let bgAudio = false;
 
 
 let butVolumeOff = /*html*/`
@@ -19,17 +19,25 @@ let butVolumeOn = /*html*/`
                     </svg>
 `
 
-
+/**
+ * Initialization of the game
+ */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard, mute);
     buttonEwentListner();
 }
 
+/**
+ * Summary of Eventlistener for the touch buttons
+ */
 function buttonEwentListner() {
     moveBtn();
     attackBtn();
 }
+/**
+ * Event listener for buttons to handle movement
+ */
 function moveBtn() {
     document.getElementById('move-left').addEventListener('touchstart', e => keyboard.LEFT = true);
     document.getElementById('move-left').addEventListener('touchend', e => keyboard.LEFT = false);
@@ -40,13 +48,18 @@ function moveBtn() {
     document.getElementById('move-down').addEventListener('touchstart', e => keyboard.DOWN = true);
     document.getElementById('move-down').addEventListener('touchend', e => keyboard.DOWN = false);
 }
+/**
+ * Event listener for buttons to handle attacks
+ */
 function attackBtn() {
     document.getElementById('attack-fin').addEventListener('touchstart', e => keyboard.SPACE = true);
     document.getElementById('attack-fin').addEventListener('touchend', e => keyboard.SPACE = false);
     document.getElementById('attack-bubble').addEventListener('touchstart', e => keyboard.B = true);
     document.getElementById('attack-bubble').addEventListener('touchend', e => keyboard.B = false);
 }
-
+/**
+ * Event listener for key-down on the keyboard.
+ */
 window.addEventListener("keydown", (e) => {
     switch (e.keyCode) {
         case 32:
@@ -69,6 +82,9 @@ window.addEventListener("keydown", (e) => {
             break;
     };
 });
+/**
+ * Event listener for key-up on the keyboard
+ */
 window.addEventListener("keyup", (e) => {
     switch (e.keyCode) {
         case 32:
@@ -91,7 +107,9 @@ window.addEventListener("keyup", (e) => {
             break;
     };
 });
-
+/**
+ * Function to open the main part in fullscreen
+ */
 function openFullscreen() {
     main = document.getElementById('main');
     if (main.requestFullscreen) main.requestFullscreen();
@@ -99,13 +117,17 @@ function openFullscreen() {
     else if (main.msRequestFullscreen) main.msRequestFullscreen();          /* IE11 */
     document.getElementById('fullscreen').setAttribute('onclick', 'closeFullscreen()');
 }
-
+/**
+ * Function to exit fullscreen mode for the main part
+ */
 function closeFullscreen() {
     document.getElementById('fullscreen').setAttribute('onclick', 'openFullscreen()');
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
-
+/**
+ * Function to clear all timers for intervals or timeouts
+ */
 function clearAllIntervals() {
     for (let i = 1; i < 99999; i++) {
         window.clearInterval(i);

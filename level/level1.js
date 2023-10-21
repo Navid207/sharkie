@@ -31,10 +31,11 @@ function initLevel1() {
         new Background('img/3_Background/Layers/Background2/D.png', 0),
         new Background('img/3_Background/Layers/Background1/D.png', 0),
         new Background('img/3_Background/Layers/Light/COMPLETO.png', 0),
-        new Background('img/3_Background/Layers/Floor/D.png', 0)
-    ];
+        new Background('img/3_Background/Layers/Floor/D.png', 0),
+    ]
     level1.endPos = 1430;
     level1.bossPos = -760;
+    level1.bgSound = new Audio ('audio/background.mp3'); 
 
     return level1;
 }

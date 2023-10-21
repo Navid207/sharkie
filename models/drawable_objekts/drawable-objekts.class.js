@@ -48,6 +48,10 @@ class DrawableObject {
         this.actImage++;
     }
 
+    setImg(path){
+        this.img = this.imageCache[path];
+    }
+
     drawImage(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }

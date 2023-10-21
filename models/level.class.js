@@ -3,4 +3,5 @@ class Level {
     backgrounds;
     endPos;
     coins;
+    bgSound;
 }
