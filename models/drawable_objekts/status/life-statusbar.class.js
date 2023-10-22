@@ -1,9 +1,11 @@
+/**
+ * Class representing the Life statusbar element.
+ */
 class LifeStatusbar extends DrawableObject {
     x = 60;
     y = -5;
     height = 50;
     width = 200;
-
     IMAGES = {
         LIFE: [
             'img/4_Markers/green/Life/0.png',
@@ -15,12 +17,18 @@ class LifeStatusbar extends DrawableObject {
         ]
     }
 
+    /**
+    * Constructor for initializing the LifeStatusbar class and loading its images.
+    */
     constructor() {
         super().loadImages(this.IMAGES);
     }
 
+    /**
+     * Set the image for the life indicator based on the provided Health Points (HP) value.
+     * @param {number} HP - The Health Points value.
+     */
     setLife(HP) {
-
         switch (true) {
             case (HP >= 100):
                 this.setImg(this.IMAGES.LIFE[5]);

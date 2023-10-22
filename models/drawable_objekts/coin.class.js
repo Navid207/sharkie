@@ -1,8 +1,10 @@
+/**
+ * Class representing the coin element.
+ */
 class Coin extends DrawableObject {
     height = 40;
     width = 40;
     onCollisionCourse = true;
-
     IMAGES = {
         COIN: [
             'img/4_Markers/Coins/1.png',
@@ -12,6 +14,11 @@ class Coin extends DrawableObject {
         ]
     }
 
+    /**
+     * Constructor for the Coin class, initializing with a specified position.
+     * @param {number} x - The initial x-coordinate of the coin.
+     * @param {number} y - The initial y-coordinate of the coin.
+     */
     constructor(x, y) {
         super().loadImage(this.IMAGES.COIN[0]);
         this.loadImages(this.IMAGES);
@@ -20,6 +27,9 @@ class Coin extends DrawableObject {
         this.y = y;
     }
 
+    /**
+    * Set up an animation interval to change the image of the coin.
+    */
     animate() {
         setInterval(() => {
             this.changeImg(this.IMAGES.COIN);

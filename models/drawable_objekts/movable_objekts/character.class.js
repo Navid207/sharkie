@@ -1,3 +1,6 @@
+/**
+ * Class representing a movable character in the game.
+ */
 class Character extends MovableObject {
     height = 245;
     width = 200;
@@ -10,14 +13,12 @@ class Character extends MovableObject {
         electric: new Audio('audio/electric.wav'),
         gameOver: new Audio('audio/GameOver.wav')
     }
-
     collOffset = {
         x: 45,
         y: 120,
         width: -90,
         height: -175
     }
-
     IMAGES = {
         IDLE: [
             'img/1_Sharkie/IDLE/1.png',
@@ -142,7 +143,9 @@ class Character extends MovableObject {
 
     }
 
-
+    /**
+     * Constructor for initializing the Character class with an idle image, loading additional images, initiating movement, and starting animation.
+     */
     constructor() {
         super().loadImage('img/1_Sharkie/IDLE/1.png');
         this.loadImages(this.IMAGES);
@@ -151,7 +154,7 @@ class Character extends MovableObject {
     }
 
     /**
-     * Interval for Movement of the Character
+     * Set up an interval to repeatedly check for movement commands and update the character's position.
      */
     move() {
         setInterval(() => {
@@ -169,20 +172,39 @@ class Character extends MovableObject {
 
         }, 1000 / 60);
     }
+    /**
+    * Check conditions for moving the character to the left.
+    * @returns {boolean} - True if the left movement conditions are met, otherwise false.
+    */
     moveLeft() {
         return this.activState == 4 && this.keyboard.LEFT && (this.x > this.xMin) && !(this.x == 840);
     }
+    /**
+     * Check conditions for moving the character to the right.
+     * @returns {boolean} - True if the right movement conditions are met, otherwise false.
+     */
     moveRight() {
         return this.activState == 4 && this.keyboard.RIGHT && (this.x < this.xMax);
     }
+    /**
+     * Check conditions for moving the character up.
+     * @returns {boolean} - True if the up movement conditions are met, otherwise false.
+     */
     moveUp() {
         return this.activState == 4 && this.keyboard.UP && (this.y > this.yMin);
     }
+    /**
+     * Check conditions for moving the character down.
+     * @returns {boolean} - True if the down movement conditions are met, otherwise false.
+     */
     moveDown() {
         return ((this.activState == 4 && this.keyboard.DOWN) || this.activState == 2) && (this.y < this.yMax);
     }
 
 
+    /**
+    * Set up an interval for animating the character, checking for state changes, updating images, and playing audio.
+    */
     animate() {
         setInterval(() => {
             if (this.activState != this.oldState) this.changeState();
@@ -190,20 +212,35 @@ class Character extends MovableObject {
             this.playAudio();
         }, 100);
     }
+    /**
+     * Change the character's state, reset the image index, and trigger specific actions based on the new state.
+     */
     changeState() {
         this.oldState = this.activState;
         this.actImage = 0;
         if (this.activState == 7) this.poisonDamage();
         if (this.activState == 8) this.electricDamage();
     }
+    /**
+     * Apply poison damage to the character, reducing HP by 20.
+     * If the character is dead, update the state accordingly.
+     */
     poisonDamage() {
         this.HP -= 20;
         if (this.isDead()) this.activState = 100;
     }
+    /**
+     * Apply electric damage to the character, reducing HP by 40.
+     * If the character is dead, update the state accordingly.
+     */
     electricDamage() {
         this.HP -= 40;
         if (this.isDead()) this.activState = 101;
     }
+    /**
+     * Switch the character's image based on its current state.
+     * Adjust speed and other properties for specific states.
+     */
     switchImg() {
         switch (this.activState) {
             case 4:
@@ -249,6 +286,9 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * Play audio based on the character's state or interactions.
+     */
     playAudio() {
         if (this.audioSlap()) {
             this.sounds.slap.play();
@@ -268,21 +308,45 @@ class Character extends MovableObject {
             return this.sounds.electric.play();
         } else this.sounds.electric.pause();
     }
+    /**
+     * Check conditions to determine if the character is in a state where a slap sound should be played.
+     * @returns {boolean} - True if the conditions for a slap sound are met, otherwise false.
+     */
     audioSlap() {
         return this.activState == 5 && this.oldState == 5 && this.actImage >= 5 && this.actImage <= 7
     }
+    /**
+     * Check conditions to determine if the character is in a state where a bubble sound should be played.
+     * @returns {boolean} - True if the conditions for a bubble sound are met, otherwise false.
+     */
     audioBubble() {
         return this.activState == 6 && this.oldState == 6 && this.actImage >= 5 && this.actImage <= 7
     }
+    /**
+     * Check conditions to determine if the character is in a state where a hurt sound should be played.
+     * @returns {boolean} - True if the conditions for a hurt sound are met, otherwise false.
+     */
     audioHurt() {
         return this.activState == 7 && this.oldState == 7 && this.actImage >= 0 && this.actImage <= 4
     }
+    /**
+     * Check conditions to determine if the character is in a state where a dead sound should be played.
+     * @returns {boolean} - True if the conditions for a dead sound are met, otherwise false.
+     */
     audioDead() {
         return this.activState == 100 && this.oldState == 100 && this.actImage >= 0 && this.actImage <= 4
     }
+    /**
+     * Check conditions to determine if the character is in a state where an electric shock sound should be played.
+     * @returns {boolean} - True if the conditions for an electric shock sound are met, otherwise false.
+     */
     audioElectricShock() {
         return this.activState == 8 && this.oldState == 8 && this.actImage >= 0 && this.actImage <= 3
     }
+    /**
+     * Check conditions to determine if the character is in a state where an electric dead sound should be played.
+     * @returns {boolean} - True if the conditions for an electric dead sound are met, otherwise false.
+     */
     audioElectricDead() {
         return this.activState == 101 && this.oldState == 101 && this.actImage >= 0 && this.actImage <= 5
     }

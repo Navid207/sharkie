@@ -1,14 +1,15 @@
+/**
+ * Class representing the poison statusbar element.
+ */
 class PoisonStatusbar extends MovableObject {
     x = 60;
     y = 65;
     height = 50;
     width = 200;
     oldState = 0;
-
     sounds = {
         blub: new Audio('audio/blub.mp3'),
     }
-
     IMAGES = {
         POISEN: [
             'img/4_Markers/green/poisoned bubbles/0.png',
@@ -20,12 +21,18 @@ class PoisonStatusbar extends MovableObject {
         ]
     }
 
+    /**
+    * Constructor for initializing the PoisonStatusbar class and loading its images.
+    */
     constructor() {
         super().loadImages(this.IMAGES);
     }
 
+    /**
+    * Set the image and play audio for the Poison Bubble based on the given poison level.
+    * @param {number} POISEN - The poison level (0 to 5).
+    */
     setPoisonBubbl(POISEN) {
-
         switch (POISEN) {
             case (5):
                 this.setImg(this.IMAGES.POISEN[5]);
@@ -53,6 +60,10 @@ class PoisonStatusbar extends MovableObject {
         }
     }
 
+    /**
+    * Play the "blub" audio if the provided state is greater than the previous state.
+    * @param {number} state - The current state for which to play the audio.
+    */
     playAudio(state) {
         if (state > this.oldState) {
             this.sounds.blub.currentTime = 0;
