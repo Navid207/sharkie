@@ -34,6 +34,13 @@
     }
 }
 
+
+@media only screen and ((max-width: 480px) and (orientation: portrait)){
+    .rotateMobile{
+        display: block;
+    }
+}
+
 @media only screen and ((max-width: 480px) or (max-height: 480px)) {
     canvas {
         height: 100vh;

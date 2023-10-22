@@ -13,7 +13,7 @@ class World {
     ctx;
     keyboard;
     view_x = 0;
-    mute;
+    volume;
     gameIsOver = false;
     stopGame = true;
     sounds = {
@@ -33,13 +33,13 @@ class World {
      * @param {Keyboard} keyboard - An instance of the Keyboard class for handling input.
      * @param {boolean} mute - A flag indicating whether audio is muted.
      */
-    constructor(canvas, keyboard, mute) {
+    constructor(canvas, keyboard, volume) {
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.mute = mute;
+        this.volume = volume;
         this.ctx = canvas.getContext('2d');
         this.draw();
-        this.checkSound(mute);
+        this.checkSound(volume);
     }
 
     /**
@@ -137,8 +137,10 @@ class World {
      * function to check if the game was muted before it starts
      * @param {Boolean} mute - mute state
      */
-    checkSound(mute) {
-        mute ? this.muteAllObjects() : this.unMuteAllObjects();
+    checkSound(volume) {
+        if (volume === 0) return this.muteAllObjects()
+        if (volume === 1) return this.soundOn(0.25)
+        if (volume === 2) return this.soundOn(0.8)
     }
 
     /**
@@ -161,7 +163,19 @@ class World {
     }
 
     /**
-     * summary of all audio elements for unmuting
+     * Turn on sound by unmuting all objects and setting the audio volume for various game objects.
+     * @param {number} volume - The volume level to set for the audio elements (0.0 to 1.0).
+     */
+    soundOn(volume) {
+        this.unMuteAllObjects();
+        this.setAudioVolume(this.character.sounds, volume);
+        this.setAudioVolume(this.sounds, volume);
+        this.setAudioVolume(this.gameStatus.sounds, volume);
+        if (this.level) this.level.enemys.forEach(e => this.setAudioVolume(e.sounds, volume));
+        if (this.statusbar) this.statusbar.forEach(e => this.setAudioVolume(e.sounds, volume));
+    }
+    /**
+     * Unmute the sounds for various game objects, including the character, game status, enemies, and status bars.
      */
     unMuteAllObjects() {
         this.unMuteObjects(this.character.sounds);
@@ -170,13 +184,20 @@ class World {
         if (this.level) this.level.enemys.forEach(e => this.unMuteObjects(e.sounds));
         if (this.statusbar) this.statusbar.forEach(e => this.unMuteObjects(e.sounds));
     }
-
     /**
-     * unmute object
-     * @param {JSON of Audio} obj 
+     * Unmute all sounds within the provided object by setting the 'muted' property to false.
+     * @param {Object} obj - The object containing sound properties to be unmuted.
      */
     unMuteObjects(obj) {
         Object.values(obj).forEach(obj => obj.muted = false)
+    }
+    /**
+     * Set the volume for all audio elements within the provided object.
+     * @param {Object} obj - The object containing audio elements to have their volume set.
+     * @param {number} volume - The volume level to set for the audio elements (0.0 to 1.0).
+     */
+    setAudioVolume(obj, volume) {
+        Object.values(obj).forEach(obj => obj.volume = volume)
     }
 
     //============ Update Logic ============

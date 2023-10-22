@@ -48,6 +48,26 @@ svg:hover {
     margin-block: 12px;
 }
 
+#volumeSetting {
+    display: flex;
+    position: fixed;
+    gap: 12px;
+    background-color: rgb(121, 121, 121); 
+    border:0 solid white;
+    border-radius: 2.5px;
+    animation-name: slide-in-left;
+    animation-duration: 0.25s;
+}
+
+@keyframes slide-in-left {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
 canvas {
     background-color: black;
     display: block;
@@ -185,6 +205,16 @@ canvas {
     align-items: center;
     gap: 5px;
     font-size: 14px;
+}
+
+.rotateMobile{
+    display: none;
+    position: absolute;    
+}
+
+.rotateMobile svg{
+    height: 100%;
+    width: 100%;
 }
 
 .d-none {
