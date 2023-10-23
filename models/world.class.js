@@ -28,15 +28,17 @@ class World {
     ];
 
     /**
-     * Constructor for initializing an object with properties related to canvas, keyboard, and mute functionality.
+     * Constructor for initializing an object with properties related to canvas, keyboard, mute and level functionality.
      * @param {HTMLCanvasElement} canvas - The HTML canvas element for rendering.
      * @param {Keyboard} keyboard - An instance of the Keyboard class for handling input.
      * @param {boolean} mute - A flag indicating whether audio is muted.
+     * @param {Level} level - An instance of the Level class representing the current game level.
      */
-    constructor(canvas, keyboard, volume) {
+    constructor(canvas, keyboard, volume, level) {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.volume = volume;
+        this.level = level;
         this.ctx = canvas.getContext('2d');
         this.draw();
         this.checkSound(volume);
@@ -369,7 +371,7 @@ class World {
      * @returns {boolean} true or false.
      */
     attacktoBossPossible() {
-        return (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0]));
+        return (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0]) & !this.level.enemys[(this.level.enemys.length - 1)].hurt);
     }
     /**
      * Set the damage for the boss and delete the bubble from the map.

@@ -30,7 +30,7 @@ let butVolumeLow = /*html*/`
  */
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard, volume);
+    world = new World(canvas, keyboard, volume, initLevel1());
     buttonEwentListner();
 }
 
@@ -146,13 +146,12 @@ function clearAllIntervals() {
 
 /**
  * Function to start a new game.
- * Clears all intervals, initializes a new World, sets the game level to Level 1,
+ * Clears all intervals, initializes a new World,
  * resets game state, and hides certain buttons.
  */
 function startGame() {
     clearAllIntervals();
-    world = new World(canvas, keyboard, volume);
-    world.level = initLevel1();
+    world = new World(canvas, keyboard, volume, initLevel1());
     world.stopGame = false;
     world.gameStatus.setGameState(0);
     document.getElementById('butStartGame').classList.add('d-none');
