@@ -371,7 +371,7 @@ class World {
      * @returns {boolean} true or false.
      */
     attacktoBossPossible() {
-        return (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0]) & !this.level.enemys[(this.level.enemys.length - 1)].hurt);
+        return (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0]) && (this.bubbles.length == 1 || !this.level.enemys[(this.level.enemys.length - 1)].hurt));
     }
     /**
      * Set the damage for the boss and delete the bubble from the map.
@@ -537,7 +537,7 @@ class World {
      * @returns {boolean} - True if the bubble attack is active, otherwise false.
      */
     stateBubbleAttack() {
-        return (this.keyboard.B && this.gameStatus.collectedPoison > 0) || (this.character.activState == 6 && this.character.actImage <= 8)
+        return (this.keyboard.B && this.gameStatus.collectedPoison > 0 && this.bubbles <= 0) || (this.character.activState == 6 && this.character.actImage <= 8)
     }
     /**
      * Conditions for the fin slap attack state.
