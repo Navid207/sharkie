@@ -52,9 +52,9 @@ svg:hover {
     display: flex;
     position: fixed;
     gap: 12px;
-    background-color: rgb(121, 121, 121); 
+    background-color: rgb(171 196 215);
     border:0 solid white;
-    border-radius: 2.5px;
+    border-radius: 12.5px;
     animation-name: slide-in-left;
     animation-duration: 0.25s;
 }
@@ -109,10 +109,48 @@ canvas {
 
 .hiddenElement {
     display: flex;
+    flex-direction: column;
     position: relative;
-    bottom: 150px;
     justify-content: center;
+    align-items: center;
+    bottom: 390px;
 }
+
+.level{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 120px;
+    height: 130px;
+}
+
+.level div{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background-color: #FCEE21;
+    color:#1B1464;
+    border: 3px solid white;
+    border-radius: 15px;
+    width: 100px;
+}   
+
+.level svg{
+    border: none;
+    height: auto;
+    width: auto;
+    border-radius: 0;
+    fill: #1B1464;
+    width: 60px;
+    height: 60px;
+}
+
+.level div:hover{
+    background-color: #7fffe0;
+    color: #531A82;
+}  
 
 .hiddenElement img {
     height: 50px;
@@ -120,6 +158,14 @@ canvas {
 
 .hiddenElement:hover {
     cursor: pointer;
+}
+
+.act-level{
+    border: 8px inset white !important;
+}
+
+#butStartGame{
+    width: 150px;
 }
 
 #butStartGame:hover {

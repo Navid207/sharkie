@@ -27,28 +27,57 @@ class World {
         new Background('img/3_Background/Layers/Floor/D.png', -300)
     ];
 
+    loadedImgs = 0;
+
     /**
-     * Constructor for initializing an object with properties related to canvas, keyboard, mute and level functionality.
+     * Constructor for initializing an object with properties related to canvas, keyboard and mute functionality.
      * @param {HTMLCanvasElement} canvas - The HTML canvas element for rendering.
      * @param {Keyboard} keyboard - An instance of the Keyboard class for handling input.
      * @param {boolean} mute - A flag indicating whether audio is muted.
-     * @param {Level} level - An instance of the Level class representing the current game level.
      */
-    constructor(canvas, keyboard, volume, level) {
+    constructor(canvas, keyboard, volume) {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.volume = volume;
-        this.level = level;
         this.ctx = canvas.getContext('2d');
-        this.draw();
         this.checkSound(volume);
+        this.draw();
+        //this.checkLoadingState();
     }
+
+    // functions for later
+    // checkLoadingState() {
+    //     this.test(this.character);
+    //     this.test(this.statusbar);
+    //     this.test(this.level.enemys);
+    //     this.test(this.level.statusbar);
+    //     this.test(this.level.coins);
+    //     this.test(this.level.poison);
+    //     console.log(this.loadedImgs);
+    //     this.loadedImgs = 0;
+    // }
+
+    // test(object) {
+    //     let test = 0;
+    //     if (object) {
+    //         if (!object.length) {
+    //             test = object.savedImg
+    //         } else {
+    //             for (let i = 0; i < object.length; i++) {
+    //                 const obj = object[i];
+    //                 if (obj.savedImg) test += obj.savedImg;
+    //             }
+    //         }
+    //         if (test > 0) this.loadedImgs += test;
+    //     }
+    // }
 
     /**
      * Loop function to draw the canvas as often as the GPU allows.
      * Conditionally calls DrawGameLoop or DrawHomeScreen based on the game state.
      */
     draw() {
+        //this.checkLoadingState();
         if (!this.stopGame && this.level.enemys) this.DrawGameLoop();
         else this.DrawHomeScreen();
         let self = this;
@@ -475,6 +504,8 @@ class World {
      * Make the "Try Again" button visible.
      */
     tryAgain() {
+        document.getElementById('level-easy').classList.remove('d-none');
+        document.getElementById('level-hard').classList.remove('d-none');
         document.getElementById('butTryAgain').classList.remove('d-none');
     }
     /**

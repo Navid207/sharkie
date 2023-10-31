@@ -18,14 +18,17 @@ class DrawableObject {
         height: 0
     }
     sounds = {};
+    savedImg = 0;
+
+    
 
     /**
      * Function to load an image into the document.
      * @param {string} path - The path of the image.
      */
     loadImage(path) {
-        this.img = new Image(); // => this.img = document.getElementById('image')  nur das es die Img noch nicht esestiet in HTML
-        this.img.src = path;    //  es entspricht <img src="">
+        this.img = new Image();
+        this.img.src = path;
     }
 
     /**
@@ -49,6 +52,7 @@ class DrawableObject {
         let img = new Image();
         img.src = path;
         this.imageCache[path] = img;
+        this.savedImg ++; // Neu
     }
 
     /**

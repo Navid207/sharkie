@@ -1,10 +1,7 @@
 let level1 = new Level();
 
 function initLevel1() {
-    level1 = new Level();
     level1.enemys = [
-        new Puffer,
-        new Puffer,
         new Puffer,
         new Puffer,
         new Puffer,
@@ -33,9 +30,10 @@ function initLevel1() {
         new Background('img/3_Background/Layers/Light/COMPLETO.png', 0),
         new Background('img/3_Background/Layers/Floor/D.png', 0),
     ]
+
     level1.endPos = 1430;
     level1.bossPos = -760;
     level1.bgSound = new Audio ('audio/background.mp3'); 
 
-    return level1;
+   return level1;
 }

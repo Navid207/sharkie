@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard;
 let volume = 1;
 let bgAudio = false;
+let activLevel = 1; // 1 = easy; 2 = hard
 
 
 let butVolumeOff = /*html*/`
@@ -30,7 +31,7 @@ let butVolumeLow = /*html*/`
  */
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard, volume, initLevel1());
+    world = new World(canvas, keyboard, volume);
     buttonEwentListner();
 }
 
@@ -145,17 +146,76 @@ function clearAllIntervals() {
 }
 
 /**
+ * Sets the game level based on the provided parameter.
+ * @param {number} level - The level to set (1 for easy, 2 for hard).
+ */
+function setLevel(level) {
+    clearActLevel();
+    level==1 ? setLevelEasy() : setLevelHard();
+}
+/**
+ * Clears the active level indication by removing the "act-level" class from level buttons.
+ */
+function clearActLevel(){
+    let btnEasy = document.getElementById('level-easy');
+    let btnHard = document.getElementById('level-hard');
+    btnEasy.classList.remove('act-level');
+    btnHard.classList.remove('act-level');
+}
+/**
+ * Set the active level to 1 (easy) and add the "act-level" class to the button.
+ */
+function setLevelEasy(){
+    document.getElementById('level-easy').classList.add('act-level');
+    activLevel = 1;
+}
+/**
+ * Set the acktivLevel to 2 (hard) and add the "act-level" class to the butten
+ */
+function setLevelHard(){
+    document.getElementById('level-hard').classList.add('act-level');
+    activLevel = 2;
+}
+/**
+ * Initialization of the level for the world.
+ */
+function switchLevel(){
+    switch (activLevel) {
+        case 1:
+            world.level =initLevel1();
+            break;
+        case 2:
+            world.level =initLevel2();
+            break;
+        default:
+            initLevel1();
+            break;
+    }
+} 
+
+/**
  * Function to start a new game.
- * Clears all intervals, initializes a new World,
+ * Clears all intervals, initializes a new World, set the active level,
  * resets game state, and hides certain buttons.
  */
 function startGame() {
     clearAllIntervals();
-    world = new World(canvas, keyboard, volume, initLevel1());
+    world = new World(canvas, keyboard, volume);
+    switchLevel();
+    world.checkSound(volume);
     world.stopGame = false;
     world.gameStatus.setGameState(0);
+    hideBut();
+}
+
+/**
+ * Hide all butenes
+ */
+function hideBut(){
     document.getElementById('butStartGame').classList.add('d-none');
     document.getElementById('butTryAgain').classList.add('d-none');
+    document.getElementById('level-easy').classList.add('d-none');
+    document.getElementById('level-hard').classList.add('d-none');
 }
 
 /**
