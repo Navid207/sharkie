@@ -55,8 +55,6 @@ class Puffer extends MovableObject {
     constructor() {
         super().loadImage('img/2_Enemy/1_Puffer/1.Swim/1.swim1.png');
         this.loadImages(this.IMAGES);
-        this.animate();
-        this.swimLeft();
     }
 
     /**

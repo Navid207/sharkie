@@ -50,9 +50,9 @@ class DrawableObject {
      */
     setImageCache(path) {
         let img = new Image();
+        img.onload = () => {this.savedImg ++};
         img.src = path;
         this.imageCache[path] = img;
-        this.savedImg ++; // Neu
     }
 
     /**

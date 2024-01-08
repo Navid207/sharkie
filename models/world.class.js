@@ -27,6 +27,7 @@ class World {
         new Background('img/3_Background/Layers/Floor/D.png', -300)
     ];
 
+    allImgsLoaded = false;
     loadedImgs = 0;
 
     /**
@@ -42,42 +43,70 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.checkSound(volume);
         this.draw();
-        //this.checkLoadingState();
     }
 
-    // functions for later
-    // checkLoadingState() {
-    //     this.test(this.character);
-    //     this.test(this.statusbar);
-    //     this.test(this.level.enemys);
-    //     this.test(this.level.statusbar);
-    //     this.test(this.level.coins);
-    //     this.test(this.level.poison);
-    //     console.log(this.loadedImgs);
-    //     this.loadedImgs = 0;
-    // }
 
-    // test(object) {
-    //     let test = 0;
-    //     if (object) {
-    //         if (!object.length) {
-    //             test = object.savedImg
-    //         } else {
-    //             for (let i = 0; i < object.length; i++) {
-    //                 const obj = object[i];
-    //                 if (obj.savedImg) test += obj.savedImg;
-    //             }
-    //         }
-    //         if (test > 0) this.loadedImgs += test;
-    //     }
-    // }
+    checkLoadingState() {
+        if (!this.allImgsLoaded) {
+            let allImgs = this.setAllImgs();
+            this.incAllLoadedImgs()
+            console.log(this.loadedImgs)
+            if (this.loadedImgs >= allImgs) {
+                this.allImgsLoaded = true;
+                this.loadedImgs = 0;
+                if (this.level) this.startPufferMovements()
+            }
+        }
+    }
+
+    startPufferMovements() {
+        this.level.enemys.forEach(e => {
+            if (e instanceof Puffer) {
+                e.animate();
+                e.swimLeft();
+            }
+        });
+    }
+
+
+    setAllImgs() {
+        if (this.stopGame) return 116
+        else return this.level.imgs
+    }
+
+
+    incAllLoadedImgs() {
+        this.incLoadedImgs(this.character);
+        this.incLoadedImgs(this.statusbar);
+        if (this.level) {
+            this.incLoadedImgs(this.level.enemys);
+            this.incLoadedImgs(this.level.statusbar);
+            this.incLoadedImgs(this.level.coins);
+            this.incLoadedImgs(this.level.poison);
+        }
+    }
+
+
+    incLoadedImgs(object) {
+        let imgs = 0;
+        if (object) {
+            if (!object.length) imgs = object.savedImg
+            else {
+                for (let i = 0; i < object.length; i++) {
+                    const obj = object[i];
+                    if (obj.savedImg) imgs += obj.savedImg;
+                }
+            }
+            if (imgs > 0) this.loadedImgs += imgs;
+        }
+    }
 
     /**
      * Loop function to draw the canvas as often as the GPU allows.
      * Conditionally calls DrawGameLoop or DrawHomeScreen based on the game state.
      */
     draw() {
-        //this.checkLoadingState();
+        this.checkLoadingState();
         if (!this.stopGame && this.level.enemys) this.DrawGameLoop();
         else this.DrawHomeScreen();
         let self = this;

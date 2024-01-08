@@ -42,6 +42,7 @@ function buttonEwentListner() {
     moveBtn();
     attackBtn();
 }
+
 /**
  * Set up touch event listeners for buttons associated with movement.
  * These listeners update the keyboard state based on touchstart and touchend events.
@@ -56,6 +57,7 @@ function moveBtn() {
     document.getElementById('move-down').addEventListener('touchstart', e => keyboard.DOWN = true);
     document.getElementById('move-down').addEventListener('touchend', e => keyboard.DOWN = false);
 }
+
 /**
  * Set up touch event listeners for buttons associated with attack actions.
  * These listeners update the keyboard state based on touchstart and touchend events.
@@ -66,6 +68,7 @@ function attackBtn() {
     document.getElementById('attack-bubble').addEventListener('touchstart', e => keyboard.B = true);
     document.getElementById('attack-bubble').addEventListener('touchend', e => keyboard.B = false);
 }
+
 /**
  * Event listener for keydown on the keyboard.
  */
@@ -91,6 +94,7 @@ window.addEventListener("keydown", (e) => {
             break;
     };
 });
+
 /**
  * Event listener for keyup on the keyboard
  */
@@ -127,6 +131,7 @@ function openFullscreen() {
     else if (main.msRequestFullscreen) main.msRequestFullscreen();          /* IE11 */
     document.getElementById('fullscreen').setAttribute('onclick', 'closeFullscreen()');
 }
+
 /**
  * Function to exit fullscreen mode for the 'main' element.
  */
@@ -135,6 +140,7 @@ function closeFullscreen() {
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
+
 /**
  * Function to clear all timers for intervals or timeouts
  */
@@ -153,6 +159,7 @@ function setLevel(level) {
     clearActLevel();
     level==1 ? setLevelEasy() : setLevelHard();
 }
+
 /**
  * Clears the active level indication by removing the "act-level" class from level buttons.
  */
@@ -162,6 +169,7 @@ function clearActLevel(){
     btnEasy.classList.remove('act-level');
     btnHard.classList.remove('act-level');
 }
+
 /**
  * Set the active level to 1 (easy) and add the "act-level" class to the button.
  */
@@ -169,6 +177,7 @@ function setLevelEasy(){
     document.getElementById('level-easy').classList.add('act-level');
     activLevel = 1;
 }
+
 /**
  * Set the acktivLevel to 2 (hard) and add the "act-level" class to the butten
  */
@@ -176,6 +185,7 @@ function setLevelHard(){
     document.getElementById('level-hard').classList.add('act-level');
     activLevel = 2;
 }
+
 /**
  * Initialization of the level for the world.
  */
@@ -224,6 +234,7 @@ function hideBut(){
 function showSoundSettings() {
     document.getElementById('volumeSetting').classList.remove('d-none');
 }
+
 /**
  * Function to turn off the sound in the game.
  */
@@ -233,6 +244,7 @@ function soundOff() {
     document.getElementById('volumeSetting').classList.add('d-none');
     volume = 0;
 }
+
 /**
  * Function to set the volume to a low level in the game.
  */
@@ -242,6 +254,7 @@ function soundLow() {
     document.getElementById('volumeSetting').classList.add('d-none');
     volume = 1;
 }
+
 /**
  * Function to set the volume to a high level in the game.
  */
@@ -251,6 +264,7 @@ function soundHigh() {
     document.getElementById('volumeSetting').classList.add('d-none');
     volume = 2;
 }
+
 /**
  * Function to open the introduction element.
  */
@@ -259,6 +273,7 @@ function openInfo() {
     info.classList.remove('d-none');
     info.classList.add('slide-in');
 }
+
 /**
  * Function to close the introduction element.
  */
@@ -268,6 +283,7 @@ function closeInfo() {
     info.classList.add('slide-out');
     setTimeout(() => removeSlideOut(info), 500)
 }
+
 function removeSlideOut(info) {
     info.classList.remove('slide-out');
     info.classList.add('d-none');

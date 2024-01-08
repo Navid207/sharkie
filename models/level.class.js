@@ -7,4 +7,5 @@ class Level {
     endPos;
     coins;
     bgSound;
+    imgs;
 }
