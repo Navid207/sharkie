@@ -1,0 +1,75 @@
+.hiddenElement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    height: 486px;
+    margin-top: -486px;
+    bottom: -486px;
+    z-index: 7;
+}
+
+.hiddenElement section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
+    height: 100%;
+}
+
+.level{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    height: 130px;
+}
+
+.level div{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background-color: #FCEE21;
+    color:#1B1464;
+    border: 3px solid white;
+    border-radius: 15px;
+    width: 100px;
+}   
+
+.level svg{
+    border: none;
+    height: auto;
+    width: auto;
+    border-radius: 0;
+    fill: #1B1464;
+    width: 60px;
+    height: 60px;
+}
+
+.level div:hover{
+    background-color: #7fffe0;
+    color: #531A82;
+}  
+
+.hiddenElement img {
+    height: 50px;
+}
+
+.hiddenElement:hover {
+    cursor: pointer;
+}
+
+.act-level{
+    border: 8px inset white !important;
+}
+
+#butStartGame{
+    width: 150px;
+}
+
+#butStartGame:hover {
+    content: url('../img/6_Botones/Start/2.png');
+}

@@ -29,7 +29,7 @@ let butVolumeLow = /*html*/`
 /**
  * Initialize the game by setting up the canvas, creating a game world, and adding event listeners.
  */
-function init() {
+function initGame() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard, volume);
     buttonEwentListner();
@@ -209,6 +209,7 @@ function switchLevel(){
  * resets game state, and hides certain buttons.
  */
 function startGame() {
+    document.getElementById('loading').classList.remove('d-none');
     clearAllIntervals();
     world = new World(canvas, keyboard, volume);
     switchLevel();

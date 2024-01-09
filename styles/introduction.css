@@ -1,0 +1,83 @@
+#introduction {
+    background-color: rgba(255, 255, 255, 0.75);
+    text-align: center;
+    overflow: auto;
+    border: 3px solid white;
+    position: absolute;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation-timing-function: ease-in-out;
+    z-index: 11;
+    overflow-y: auto;
+}
+
+.slide-in {
+    border-radius: 2%;
+    animation-name: slide-in;
+    animation-duration: 1s;
+    top: 0px;
+    bottom: 0px;
+}
+
+@keyframes slide-in {
+    0% {
+        top: -100vh;
+    }
+
+    100% {
+        top: 0px;
+    }
+}
+
+.slide-out {
+    border-radius: 2%;
+    animation-name: slide-out;
+    animation-duration: 0.5s;
+    top: 100vh;
+}
+
+@keyframes slide-out {
+    0% {
+        top: 0px;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+#introduction p {
+    margin: 20px
+}
+
+#introduction img {
+    border: 2px solid;
+    color: #474747;
+    border-radius: 100%;
+    height: 24px;
+    width: 24px;
+    fill: #ffffff;
+}
+
+.int-control {
+    display: flex;
+    justify-content: space-around;
+}
+
+.int-control div {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.int-control div p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}

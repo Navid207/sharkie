@@ -45,68 +45,12 @@ class World {
         this.draw();
     }
 
-
-    checkLoadingState() {
-        if (!this.allImgsLoaded) {
-            let allImgs = this.setAllImgs();
-            this.incAllLoadedImgs()
-            console.log(this.loadedImgs)
-            if (this.loadedImgs >= allImgs) {
-                this.allImgsLoaded = true;
-                this.loadedImgs = 0;
-                if (this.level) this.startPufferMovements()
-            }
-        }
-    }
-
-    startPufferMovements() {
-        this.level.enemys.forEach(e => {
-            if (e instanceof Puffer) {
-                e.animate();
-                e.swimLeft();
-            }
-        });
-    }
-
-
-    setAllImgs() {
-        if (this.stopGame) return 116
-        else return this.level.imgs
-    }
-
-
-    incAllLoadedImgs() {
-        this.incLoadedImgs(this.character);
-        this.incLoadedImgs(this.statusbar);
-        if (this.level) {
-            this.incLoadedImgs(this.level.enemys);
-            this.incLoadedImgs(this.level.statusbar);
-            this.incLoadedImgs(this.level.coins);
-            this.incLoadedImgs(this.level.poison);
-        }
-    }
-
-
-    incLoadedImgs(object) {
-        let imgs = 0;
-        if (object) {
-            if (!object.length) imgs = object.savedImg
-            else {
-                for (let i = 0; i < object.length; i++) {
-                    const obj = object[i];
-                    if (obj.savedImg) imgs += obj.savedImg;
-                }
-            }
-            if (imgs > 0) this.loadedImgs += imgs;
-        }
-    }
-
     /**
      * Loop function to draw the canvas as often as the GPU allows.
      * Conditionally calls DrawGameLoop or DrawHomeScreen based on the game state.
      */
     draw() {
-        this.checkLoadingState();
+        checkLoadingState(this.allImgsLoaded);
         if (!this.stopGame && this.level.enemys) this.DrawGameLoop();
         else this.DrawHomeScreen();
         let self = this;

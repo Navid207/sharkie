@@ -53,7 +53,7 @@ svg:hover {
     position: fixed;
     gap: 12px;
     background-color: rgb(171 196 215);
-    border:0 solid white;
+    border: 0 solid white;
     border-radius: 12.5px;
     animation-name: slide-in-left;
     animation-duration: 0.25s;
@@ -63,6 +63,7 @@ svg:hover {
     0% {
         opacity: 0%;
     }
+
     100% {
         opacity: 100%;
     }
@@ -107,161 +108,22 @@ canvas {
     gap: 24px;
 }
 
-.hiddenElement {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    bottom: 390px;
-}
-
-.level{
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    margin-bottom: 120px;
-    height: 130px;
-}
-
-.level div{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px;
-    background-color: #FCEE21;
-    color:#1B1464;
-    border: 3px solid white;
-    border-radius: 15px;
-    width: 100px;
-}   
-
-.level svg{
-    border: none;
-    height: auto;
-    width: auto;
-    border-radius: 0;
-    fill: #1B1464;
-    width: 60px;
-    height: 60px;
-}
-
-.level div:hover{
-    background-color: #7fffe0;
-    color: #531A82;
-}  
-
-.hiddenElement img {
-    height: 50px;
-}
-
-.hiddenElement:hover {
-    cursor: pointer;
-}
-
-.act-level{
-    border: 8px inset white !important;
-}
-
-#butStartGame{
-    width: 150px;
-}
-
-#butStartGame:hover {
-    content: url('img/6_Botones/Start/2.png');
-}
-
-#introduction {
-    background-color: rgba(255, 255, 255, 0.75);
-    text-align: center;
-    overflow: auto;
-    border: 3px solid white;
-    position: absolute;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    animation-timing-function: ease-in-out;
-}
-
-.slide-in {
-    border-radius: 2%;
-    animation-name: slide-in;
-    animation-duration: 1s;
-    top: 0px;
-    bottom: 0px;
-}
-
-@keyframes slide-in {
-    0% {
-        top: -100vh;
-    }
-
-    100% {
-        top: 0px;
-    }
-}
-
-.slide-out {
-    border-radius: 2%;
-    animation-name: slide-out;
-    animation-duration: 0.5s;
-    top: 100vh;
-}
-
-@keyframes slide-out {
-    0% {
-        top: 0px;
-    }
-
-    100% {
-        top: 100vh;
-    }
-}
-
-#introduction p {
-    margin: 20px
-}
-
-#introduction img {
-    border: 2px solid;
-    color: #474747;
-    border-radius: 100%;
-    height: 24px;
-    width: 24px;
-    fill: #ffffff;
-}
-
-.int-control {
-    display: flex;
-    justify-content: space-around;
-}
-
-.int-control div {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    justify-content: center;
-}
-
-.int-control div p {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 14px;
-}
-
-.rotateMobile{
+.rotateMobile {
     display: none;
-    position: absolute;    
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #474747;
 }
 
-.rotateMobile svg{
-    height: 100%;
-    width: 100%;
+.rotateMobile svg {
+    width: 50vw;
+    height: 50vw;
 }
 
 .d-none {

@@ -35,7 +35,7 @@ function initLevel1() {
     level1.bossPos = -760;
     level1.bgSound = new Audio ('audio/background.mp3'); 
 
-    level1.imgs = 286;
+    level1.imgs = 307;
 
    return level1;
 }

@@ -1,0 +1,103 @@
+@media (max-height: 600px) {
+    h1 {
+        display: none;
+    }
+
+    .settings {
+        position: absolute;
+        z-index: 9;
+        right: 12px;
+        top: 0;
+    }
+
+    .control {
+        display: flex;
+    }
+}
+
+@media (max-height: 500px) {
+    
+#introduction div{
+    height: 100%;
+}
+}
+
+@media (max-width: 720px) {
+    .settings {
+        width: unset;
+    }
+
+    #fullscreen{
+        display: none;
+    }
+
+    #loading {
+        height: calc(100vw * 0.66666);
+        margin-top: calc(-100vw * 0.66666);
+        bottom: calc(-100vw * 0.66666);
+    }
+
+    .hiddenElement {
+        height: calc(100vw * 0.66666);
+        margin-top: calc(-100vw * 0.66666);
+        bottom: calc(-100vw * 0.66666);
+    }
+
+    canvas {
+        width: 100%;
+        border: none;
+        border-radius: 0;
+    }
+
+    .control {
+        display: flex;
+    }
+}
+
+@media ((max-width: 480px) and (orientation: portrait)){
+    .rotateMobile{
+        display: flex;
+    }
+}
+
+@media ((max-width: 480px) or (max-height: 480px)) {
+    canvas {
+        height: 100vh;
+        width: 100vw;
+        border: none;
+        border-radius: 0;
+    }
+
+    #fullscreen{
+        display: none;
+    }
+
+    #loading{
+        height: 100vh;
+        margin-top: -100vh;
+        bottom: -100vh; 
+    }
+
+    #loading img {
+        margin-top: -100px;
+    }
+
+    .hiddenElement{
+        height: 100vh;
+        margin-top: -100vh;
+        bottom: -100vh; 
+    }
+
+    .control {
+        display: flex;
+    }
+
+}
+
+@media (max-height: 380px) {
+
+    #loading img {
+        margin-bottom: -100px;
+    }
+
+}

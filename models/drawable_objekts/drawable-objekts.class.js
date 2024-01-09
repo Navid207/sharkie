@@ -29,6 +29,7 @@ class DrawableObject {
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
+        this.img.onload = () => {if (this.img.complete) this.savedImg ++};
     }
 
     /**
@@ -50,7 +51,7 @@ class DrawableObject {
      */
     setImageCache(path) {
         let img = new Image();
-        img.onload = () => {this.savedImg ++};
+        img.onload = () => {if (img.complete) this.savedImg ++};
         img.src = path;
         this.imageCache[path] = img;
     }
