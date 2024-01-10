@@ -77,7 +77,7 @@ canvas {
     border-radius: 2%;
 }
 
-.control {
+#control {
     display: none;
     align-items: center;
     justify-content: space-between;
@@ -86,7 +86,7 @@ canvas {
     padding-inline: 12px;
 }
 
-.control svg {
+#control svg {
     height: 48px;
     width: 48px;
 }

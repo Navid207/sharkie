@@ -178,6 +178,7 @@ class World {
         if (this.level) this.level.enemys.forEach(e => this.setAudioVolume(e.sounds, volume));
         if (this.statusbar) this.statusbar.forEach(e => this.setAudioVolume(e.sounds, volume));
     }
+
     /**
      * Unmute the sounds for various game objects, including the character, game status, enemies, and status bars.
      */
@@ -188,6 +189,7 @@ class World {
         if (this.level) this.level.enemys.forEach(e => this.unMuteObjects(e.sounds));
         if (this.statusbar) this.statusbar.forEach(e => this.unMuteObjects(e.sounds));
     }
+
     /**
      * Unmute all sounds within the provided object by setting the 'muted' property to false.
      * @param {Object} obj - The object containing sound properties to be unmuted.
@@ -195,6 +197,7 @@ class World {
     unMuteObjects(obj) {
         Object.values(obj).forEach(obj => obj.muted = false)
     }
+
     /**
      * Set the volume for all audio elements within the provided object.
      * @param {Object} obj - The object containing audio elements to have their volume set.
@@ -217,7 +220,6 @@ class World {
         this.upadteStatusbar();
     }
 
-
     /**
      * move the view position with the character
      */
@@ -228,7 +230,6 @@ class World {
         }
     }
 
-
     /**
      * set variables which required in other objects 
      */
@@ -237,7 +238,6 @@ class World {
         this.character.xMax = this.level.endPos;
         this.varForBoss();
     }
-
 
     /**
     * set variables which required for the boss
@@ -252,6 +252,7 @@ class World {
             }
         });
     }
+
     /**  
      * 
      * @returns the center position of x-achse the image
@@ -259,6 +260,7 @@ class World {
     characterCenterX() {
         return this.character.x + this.character.collOffset.x + ((this.character.width + this.character.collOffset.width) / 2)
     }
+
     /**
      * 
      * @returns the center position of y-achse the image
@@ -266,7 +268,6 @@ class World {
     characterCenterY() {
         return this.character.y + this.character.collOffset.y + ((this.character.height + this.character.collOffset.height) / 2)
     }
-
 
     /**
      * Summary of collision detection for all relevant objects
@@ -278,6 +279,7 @@ class World {
         this.collecting();
         this.bubbleState();
     }
+
     /**
      * Checks collision between the character and an enemy.
      * @returns {function} attackCharacter - Function with the parameter {@param {enemy}} representing the enemy object.
@@ -288,6 +290,7 @@ class World {
         }
         this.damageTyp = 0;
     }
+
     /**
     * Function to check if a collision is possible.
     * @param {enemy} enemy - Represents the enemy object.
@@ -296,6 +299,7 @@ class World {
     attackToCharacterPossible(e) {
         return (this.character.isColliding(e) && e.damageSatae == 0 && !(this.character.oldState == 5 && this.character.actImage >= 2))
     }
+
     /**
      * Set the damage type from the enemy to the character and change the damage state from the enemy to 1.
      * @param {enemy} enemy - Represents the enemy object.
@@ -306,6 +310,7 @@ class World {
             setTimeout(() => enemy.damageSatae = 1, 500);
         }
     }
+
     /**
      * Checks collision between all enemies and a character.
      */
@@ -314,6 +319,7 @@ class World {
             if (this.attackToEnemyPossible(i)) this.attackEnemy(i)
         }
     }
+
     /**
      * Function to check if an attack to the enemy is possible.
      * @param {number} i - Array position of the enemy.
@@ -322,6 +328,7 @@ class World {
     attackToEnemyPossible(i) {
         return (this.level.enemys[i].isColliding(this.character) & !this.level.enemys[i].hurt);
     }
+
     /**
      * Set the damage for the enemy.
      * @param {number} i - Array position of the enemy.
@@ -330,6 +337,7 @@ class World {
         this.level.enemys[i].HP = this.level.enemys[i].HP - 20;
         this.level.enemys[i].hurt = true;
     }
+
     /**
      * Function to check collision between the character and a collecting object.
      */
@@ -341,6 +349,7 @@ class World {
             if (this.character.isColliding(this.level.poison[i])) this.collectingPoison(i);
         }
     }
+
     /**
      * Add the coin to the game status and remove the coin from the map.
      * @param {number} pos - Position of the coin in the array.
@@ -349,6 +358,7 @@ class World {
         this.gameStatus.collectedCoins += 1;
         this.level.coins.splice(pos, 1);
     }
+
     /**
      * Add poison to the game status and remove it from the map.
      * @param {number} pos - Position of the posion in the array.
@@ -357,6 +367,7 @@ class World {
         this.gameStatus.collectedPoison += 1;
         this.level.poison.splice(pos, 1);
     }
+
     /**
      * Check the state of the bubble. 
      * If the maximum position is reached, delete the bubble from the map. 
@@ -368,6 +379,7 @@ class World {
             else if (this.attacktoBossPossible()) this.attackBoss()
         }
     }
+
     /**
      * Check collision between the bubble and the boss.
      * @returns {boolean} true or false.
@@ -375,6 +387,7 @@ class World {
     attacktoBossPossible() {
         return (this.level.enemys[(this.level.enemys.length - 1)].isColliding(this.bubbles[0]) && (this.bubbles.length == 1 || !this.level.enemys[(this.level.enemys.length - 1)].hurt));
     }
+
     /**
      * Set the damage for the boss and delete the bubble from the map.
      */
@@ -383,12 +396,14 @@ class World {
         this.level.enemys[(this.level.enemys.length - 1)].hurt = true;
         this.bubbles.splice(0, 1);
     }
+
     /**
      * Function to check the state of the bubble building and add the bubble to the map.
      */
     addBubble() {
         if (this.isBubbleBuilded()) this.addBubbleToMap();
     }
+
     /**
      * Check if the animation of building a bubble is done.
      * @returns {boolean} true if the animation is done, false otherwise.
@@ -396,6 +411,7 @@ class World {
     isBubbleBuilded() {
         return (this.character.actImage == 8 && this.character.oldState == 6 && this.bubbles.length < 1);
     }
+
     /**
      * Add the bubble to the map and remove one collected poison from the status.
      */
@@ -403,7 +419,6 @@ class World {
         this.bubbles.push(new Bubble(this.character.x, this.character.y, this.character.imgCahangeDirection));
         this.gameStatus.collectedPoison -= 1;
     }
-
 
     /**
      * Function to update the status bars for live state, coins state, and poison state.
@@ -415,7 +430,6 @@ class World {
         this.statusbar[2].setPoisonBubbl(this.gameStatus.collectedPoison);
     }
 
-
     /**
      * Check the game state.
      * @returns {function} - If the game is over, returns the functions for gameOver or youWin. Otherwise, it returns the background audio.
@@ -425,6 +439,7 @@ class World {
         if (this.level.enemys.some(e => e instanceof Boss && e.isDead())) return this.youWin();
         return this.playBgAudio();
     }
+
     /**
      * Function to add delayed game over "Game Over" to the map.
      */
@@ -432,6 +447,7 @@ class World {
         if (this.gameIsOver) this.setGameIsOver();
         else setTimeout(() => this.delayGameIsOver(), 1500);
     }
+
     /**
      * Add "Game Over" to the map at the right position.
      */
@@ -440,15 +456,17 @@ class World {
         this.gameStatus.x = -1 * this.view_x + 115;
         this.addToMap(this.gameStatus);
     }
+
     /**
     * Delayed functios when game over "Game Over".
     */
     delayGameIsOver() {
         this.gameIsOver = true;
-        this.tryAgain();
+        tryAgain();
         this.stopBgAudio();
         this.gameStatus.sounds.gameOver.play();
     }
+
     /**
      * Function to add delayed game over "You Win" to the map.
      */
@@ -456,6 +474,7 @@ class World {
         if (this.gameIsOver) this.setYouWin();
         else setTimeout(() => this.delayYouWin(), 1500)
     }
+
     /**
      * Add "You Win" to the map at the right position.
      */
@@ -464,23 +483,17 @@ class World {
         this.gameStatus.x = -1 * this.view_x;
         this.addToMap(this.gameStatus);
     }
+
     /**
     * Delayed functios when game over "You Winn".
     */
     delayYouWin() {
         this.gameIsOver = true;
-        this.tryAgain();
+        tryAgain();
         this.stopBgAudio();
         this.gameStatus.sounds.winn.play();
     }
-    /**
-     * Make the "Try Again" button visible.
-     */
-    tryAgain() {
-        document.getElementById('level-easy').classList.remove('d-none');
-        document.getElementById('level-hard').classList.remove('d-none');
-        document.getElementById('butTryAgain').classList.remove('d-none');
-    }
+
     /**
      * Play background audio in a loop.
      */
@@ -490,6 +503,7 @@ class World {
             this.sounds.background.play();
         }
     }
+
     /**
      * Stop background audio.
      */
@@ -497,8 +511,7 @@ class World {
         return this.sounds.background.pause();
     }
 
-
-
+    
     // Character States
 
     /**

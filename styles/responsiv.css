@@ -10,7 +10,7 @@
         top: 0;
     }
 
-    .control {
+    #control {
         display: flex;
     }
 }
@@ -37,7 +37,7 @@
         bottom: calc(-100vw * 0.66666);
     }
 
-    .hiddenElement {
+    #hiddenBtn {
         height: calc(100vw * 0.66666);
         margin-top: calc(-100vw * 0.66666);
         bottom: calc(-100vw * 0.66666);
@@ -49,7 +49,7 @@
         border-radius: 0;
     }
 
-    .control {
+    #control {
         display: flex;
     }
 }
@@ -82,13 +82,13 @@
         margin-top: -100px;
     }
 
-    .hiddenElement{
+    #hiddenBtn{
         height: 100vh;
         margin-top: -100vh;
         bottom: -100vh; 
     }
 
-    .control {
+    #control {
         display: flex;
     }
 
