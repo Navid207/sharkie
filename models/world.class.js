@@ -3,6 +3,7 @@ class World {
     level;
     damageTyp;
     statusbar = [
+        new BossLifeStatusbar,
         new LifeStatusbar,
         new CoinStatusbar,
         new PoisonStatusbar
@@ -425,9 +426,14 @@ class World {
      */
     upadteStatusbar() {
         this.statusbar.forEach(e => e.x = (-1 * this.view_x));
-        this.statusbar[0].setLife(this.character.HP);
-        this.statusbar[1].setCoin(this.gameStatus.collectedCoins);
-        this.statusbar[2].setPoisonBubbl(this.gameStatus.collectedPoison);
+        if (this.level instanceof Level) {
+            let x = this.level.enemys.length - 1;
+            this.statusbar[0].setLife(this.level.enemys[x].HP);
+            this.statusbar[0].x = 1380
+        }
+        this.statusbar[1].setLife(this.character.HP);
+        this.statusbar[2].setCoin(this.gameStatus.collectedCoins);
+        this.statusbar[3].setPoisonBubbl(this.gameStatus.collectedPoison);
     }
 
     /**
@@ -511,7 +517,7 @@ class World {
         return this.sounds.background.pause();
     }
 
-    
+
     // Character States
 
     /**
