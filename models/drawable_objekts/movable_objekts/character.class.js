@@ -2,8 +2,10 @@
  * Class representing a movable character in the game.
  */
 class Character extends MovableObject {
-    height = 245;
-    width = 200;
+    x = 220;
+    y = 80;
+    height = 368;
+    width = 300;
     speed = 2;
     damageSatae = 0;
     sounds = {

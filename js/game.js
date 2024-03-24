@@ -217,7 +217,19 @@ function startGame() {
     world.checkSound(volume);
     world.stopGame = false;
     world.gameStatus.setGameState(0);
+    setCharacterSetting();
     hideButArea();
+}
+
+
+/**
+ * Function to set the sice of the character and the position
+ */
+function setCharacterSetting() {
+    world.character.x = 100;
+    world.character.y = 200;
+    world.character.height = 245;
+    world.character.width = 200;
 }
 
 /**

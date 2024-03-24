@@ -134,6 +134,9 @@ class World {
      */
     DrawHomeScreen() {
         this.addObjectsToMap(this.backgrounds);
+        this.ctx.translate(this.view_x, 0);
+        this.addToMap(this.character);
+        this.ctx.translate(-this.view_x, 0);
     }
 
     //============ Sound Section ============

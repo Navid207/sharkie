@@ -19,8 +19,10 @@ function checkLoadingState() {
  * @param {number} maxImg - The maximum number of images to set progress against.
  */
 function setProgress(maxImg) {
-    if (world.loadedImgs >= maxImg) setProgressWidth(100)
-    else setProgressWidth(maxImg / 100 * world.loadedImgs)
+    console.log(world.loadedImgs);
+    let loadedPerc = maxImg / 100 * world.loadedImgs; 
+    if (loadedPerc >= maxImg) setProgressWidth(100);
+    else setProgressWidth(loadedPerc);
 }
 
 /**
@@ -29,6 +31,7 @@ function setProgress(maxImg) {
  * @returns {string} - The resulting width value as a CSS string.
  */
 function setProgressWidth(perc) {
+    if (perc > 100) perc = 100;
     return document.getElementById('progress').style.width = perc + '%';
 }
 
@@ -59,7 +62,7 @@ function startPufferMovements() {
  * @returns {number} - The total number of images.
  */
 function setAllImgs() {
-    if (world.stopGame) return 122
+    if (world.stopGame) return 200
     else return world.level.imgs
 }
 
